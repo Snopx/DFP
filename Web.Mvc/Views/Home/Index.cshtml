@@ -1,0 +1,59 @@
+﻿@using Domain.Model
+@using Domain.Enum
+
+@model IEnumerable<User>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.Name)
+            </th>
+            <th style="margin-left:20px">
+                @Html.DisplayNameFor(m => m.Gender)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => user.ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.Gender)
+                </td>
+                <td>
+                    @*<a asp-action="Edit" asp-route-id="@user.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@user.Id">Details</a> |*@
+                    <a asp-action="Delete" asp-route-id="@user.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table><br />
+
+<form asp-action="Create">
+    姓名<input type="text" name="Name" />
+    Gender<select name="Gender">
+        <option value="0">
+            男
+        </option>
+        <option value="1">
+            女
+        </option>
+    </select>
+    <input type="submit" value="提交" />
+</form>
