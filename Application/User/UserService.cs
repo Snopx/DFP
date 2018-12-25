@@ -11,11 +11,9 @@ namespace Application.SUser
 {
     public class UserService : BaseService<User, IRepository<User>>, IUserService
     {
-        private readonly IRepository<User> userRepository;
-
         public UserService(IRepository<User> userRepository) : base(userRepository)
         {
-            this.userRepository = userRepository;
         }
+        
     }
 }

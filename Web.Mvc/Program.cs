@@ -19,6 +19,9 @@ namespace Web.Mvc
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+            .UseKestrel()
+            .UseIISIntegration()
+            .UseContentRoot(Directory.GetCurrentDirectory())
+            .UseStartup<Startup>();
     }
 }
