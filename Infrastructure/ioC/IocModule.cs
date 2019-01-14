@@ -1,12 +1,10 @@
 ﻿using Application;
 using Autofac;
 using Domain;
+using Domain.InterFace;
+using Infrastructure.Data;
 using Infrastructure.Repository;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+using Infrastructure.UnitOfWorkFolder;
 
 namespace Infrastructure.ioC
 {
@@ -15,6 +13,9 @@ namespace Infrastructure.ioC
 
         protected override void Load(ContainerBuilder builder)
         {
+            //UnitOfWork
+            builder.RegisterType<DFDbContext>().As<IDbContext>().InstancePerDependency();
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerDependency();
             //仓储注入
             builder.RegisterGeneric(typeof(BaseRepository<,>))
                 .As(typeof(IRepository<,>))
@@ -22,7 +23,6 @@ namespace Infrastructure.ioC
             builder.RegisterGeneric(typeof(BaseRepository<>))
                 .As(typeof(IRepository<>))
                 .InstancePerDependency();
-
             //服务注入
             builder.RegisterAssemblyTypes(typeof(IService<,>).Assembly)
                 .Where(t => t.Name.EndsWith("Service"))
@@ -32,6 +32,7 @@ namespace Infrastructure.ioC
                 .Where(t => t.Name.EndsWith("Service"))
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
+
         }
 
     }

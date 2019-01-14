@@ -10,51 +10,51 @@ namespace Application
     /// <summary>
     /// 服务接口
     /// </summary>
-    public interface IService<TEntity,TPrimaryKey> where TEntity:class,IEntity
+    public interface IService<TEntity, TPrimaryKey> where TEntity : class, IEntity
     {
         IQueryable<TEntity> Table { get; }
 
-        Task<int> AddAsync(TEntity entity);
+        Task<bool> AddAsync(TEntity entity);
 
-        Task<int> AddRangeAsync(IEnumerable<TEntity> entities);
+        Task<bool> AddRangeAsync(IEnumerable<TEntity> entities);
 
-        Task<int> DeleteByIdAsync(TPrimaryKey id);
+        bool Add(TEntity entity);
 
-        Task<int> DeleteAsync(TEntity entity);
+        bool AddRange(IEnumerable<TEntity> entities);
 
-        Task<int> DeleteRangeAsync(IEnumerable<TEntity> entities);
+        Task<bool> DeleteByIdAsync(TPrimaryKey id);
 
-        Task<int> UpdateAsync(TEntity entity);
+        Task<bool> DeleteAsync(TEntity entity);
 
-        Task<int> UpdateRangeAsync(IEnumerable<TEntity> entities);
+        Task<bool> DeleteRangeAsync(IEnumerable<TEntity> entities);
 
-        Task<TEntity> FindAsync(TPrimaryKey id);
+        bool DeleteById(TPrimaryKey id);
 
-        #region
-        int Add(TEntity entity);
+        bool Delete(TEntity entity);
 
-        int AddRange(IEnumerable<TEntity> entities);
+        bool DeleteRange(IEnumerable<TEntity> entities);
 
-        int DeleteById(TPrimaryKey id);
+        Task<bool> UpdateAsync(TEntity entity);
 
-        int Delete(TEntity entity);
+        Task<bool> UpdateRangeAsync(IEnumerable<TEntity> entities);
 
-        int DeleteRange(IEnumerable<TEntity> entities);
+        bool Update(TEntity entity);
 
-        int Update(TEntity entity);
+        bool UpdateRange(IEnumerable<TEntity> entities);
 
-        int UpdateRange(IEnumerable<TEntity> entities);
+        Task<TEntity> GetAsync(TPrimaryKey ID);
 
-        #endregion
+        Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate);
 
-        TEntity FindFirstOrDefault(Expression<Func<TEntity, bool>> predicate);
+        Task<IQueryable<TEntity>> GetAsync();
 
-        IQueryable<TEntity> FindRange(Expression<Func<TEntity, bool>> predicate);
+        TEntity Get();
 
-        TEntity GetById(TPrimaryKey primaryKey);
+        TEntity Get(Expression<Func<TEntity, bool>> predicate);
+
     }
 
-    public interface IService<TEntity>: IService<TEntity, long> where TEntity:class,IEntity
+    public interface IService<TEntity> : IService<TEntity, long> where TEntity : class, IEntity
     {
     }
 

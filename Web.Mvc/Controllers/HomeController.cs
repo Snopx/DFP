@@ -19,9 +19,9 @@ namespace Web.Mvc.Controllers
             return View(userService.Table);
         }
 
-        public async Task<IActionResult> Create(User u)
+        public IActionResult Create(User u)
         {
-            await userService.AddAsync(u);
+            userService.Add(u);
             return RedirectToAction(nameof(Index));
         }
 

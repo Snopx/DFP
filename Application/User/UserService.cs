@@ -1,5 +1,6 @@
 ﻿using Application.SUser;
 using Domain;
+using Domain.InterFace;
 using Domain.Model;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Application.SUser
 {
     public class UserService : BaseService<User, IRepository<User>>, IUserService
     {
-        public UserService(IRepository<User> userRepository) : base(userRepository)
+        public UserService(IRepository<User> userRepository,IUnitOfWork unitOfWork) : base(userRepository, unitOfWork)
         {
         }
         
