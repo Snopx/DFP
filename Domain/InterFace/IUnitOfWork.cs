@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Domain.InterFace
 {
@@ -31,8 +32,12 @@ namespace Domain.InterFace
         bool RegisterModified<TEntity>(TEntity entity)
             where TEntity : class;
 
-        bool RegisterClean<TEntity>(TEntity entity)
-            where TEntity : class;
+        bool RegisterClean<TEntity>(TEntity entity) where TEntity : class;
+
+        bool RegisterCreateRange<TEntity>(IEnumerable<TEntity> entitys) where TEntity : class;
+        bool RegisterDeletedRange<TEntity>(IEnumerable<TEntity> entitys) where TEntity : class;
+
+        bool RegisterModifiedRange<TEntity>(IEnumerable<TEntity> entitys) where TEntity : class;
 
         bool Commit();
 

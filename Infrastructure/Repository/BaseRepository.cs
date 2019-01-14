@@ -9,8 +9,8 @@ namespace Infrastructure.Repository
 {
     public abstract class BaseRepository<TEntity, PrimaryKey> : IRepository<TEntity, PrimaryKey> where TEntity : class, IEntity
     {
-        protected readonly DFDbContext context;
-        public BaseRepository(DFDbContext context)
+        protected readonly IDbContext context;
+        public BaseRepository(IDbContext context)
         {
             this.context = context;
         }

@@ -14,15 +14,15 @@ namespace Infrastructure.ioC
         protected override void Load(ContainerBuilder builder)
         {
             //UnitOfWork
-            builder.RegisterType<DFDbContext>().As<IDbContext>().InstancePerDependency();
-            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerDependency();
+            builder.RegisterType<DFDbContext>().As<IDbContext>().InstancePerLifetimeScope();
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
             //仓储注入
             builder.RegisterGeneric(typeof(BaseRepository<,>))
                 .As(typeof(IRepository<,>))
-                .InstancePerDependency();
+                .InstancePerLifetimeScope();
             builder.RegisterGeneric(typeof(BaseRepository<>))
                 .As(typeof(IRepository<>))
-                .InstancePerDependency();
+                .InstancePerLifetimeScope();
             //服务注入
             builder.RegisterAssemblyTypes(typeof(IService<,>).Assembly)
                 .Where(t => t.Name.EndsWith("Service"))

@@ -44,11 +44,9 @@ namespace Application
 
         Task<TEntity> GetAsync(TPrimaryKey ID);
 
-        Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<IQueryable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate);
 
-        Task<IQueryable<TEntity>> GetAsync();
-
-        TEntity Get();
+        TEntity Get(TPrimaryKey ID);
 
         TEntity Get(Expression<Func<TEntity, bool>> predicate);
 

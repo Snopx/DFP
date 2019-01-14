@@ -36,87 +36,94 @@ namespace Application
 
         public bool AddRange(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            _unitOfWork.RegisterCreateRange(entities);
+            return _unitOfWork.Commit();
         }
 
         public Task<bool> AddRangeAsync(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            _unitOfWork.RegisterCreateRange(entities);
+            return _unitOfWork.CommitAsync();
         }
 
         public bool Delete(TEntity entity)
         {
-            throw new NotImplementedException();
+            _unitOfWork.RegisterDeleted(entity);
+            return _unitOfWork.Commit();
         }
 
         public Task<bool> DeleteAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            _unitOfWork.RegisterDeletedAsync(entity);
+            return _unitOfWork.CommitAsync();
         }
 
         public bool DeleteById(TPrimaryKey id)
         {
-            throw new NotImplementedException();
+            var entity = _repository.Get(id);
+            return _unitOfWork.RegisterDeleted(entity);
         }
 
         public Task<bool> DeleteByIdAsync(TPrimaryKey id)
         {
-            throw new NotImplementedException();
+            var entity = _repository.Get(id);
+            return _unitOfWork.RegisterDeletedAsync(entity);
         }
 
         public bool DeleteRange(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            _unitOfWork.RegisterDeletedRange(entities);
+            return _unitOfWork.Commit();
         }
 
         public Task<bool> DeleteRangeAsync(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            _unitOfWork.RegisterDeletedRange(entities);
+            return _unitOfWork.CommitAsync();
         }
 
-        public TEntity Get()
+        public TEntity Get(TPrimaryKey ID)
         {
-            throw new NotImplementedException();
+            return _repository.Get(ID);
         }
 
         public TEntity Get(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return _repository.Table.Where(predicate).FirstOrDefault();
         }
 
         public Task<TEntity> GetAsync(TPrimaryKey ID)
         {
-            throw new NotImplementedException();
+            return _repository.GetAsync(ID);
         }
 
-        public Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate)
+        public Task<IQueryable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<IQueryable<TEntity>> GetAsync()
-        {
-            throw new NotImplementedException();
+            return _repository.GetAsync(predicate);
         }
 
         public bool Update(TEntity entity)
         {
-            throw new NotImplementedException();
+            _unitOfWork.RegisterModified(entity);
+            return _unitOfWork.Commit();
         }
 
         public Task<bool> UpdateAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            _unitOfWork.RegisterModifiedAsync(entity);
+            return _unitOfWork.CommitAsync();
         }
 
         public bool UpdateRange(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            _unitOfWork.RegisterModifiedRange(entities);
+            return _unitOfWork.Commit();
         }
 
         public Task<bool> UpdateRangeAsync(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            _unitOfWork.RegisterModifiedRange(entities);
+            return _unitOfWork.CommitAsync();
         }
     }
 

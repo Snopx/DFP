@@ -16,7 +16,7 @@ namespace Infrastructure.Data
 
         public Task<int> SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            return SaveChangesAsync();
         }
     }
 }

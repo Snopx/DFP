@@ -25,9 +25,9 @@ namespace Web.Mvc.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Delete(long id)
+        public IActionResult Delete(long id)
         {
-            await userService.DeleteByIdAsync(id);
+            userService.DeleteById(id);
             return RedirectToAction(nameof(Index));
         }
 
