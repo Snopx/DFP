@@ -76,11 +76,7 @@ namespace Infrastructure.UnitOfWorkFolder
             return await SaveAsync();
         }
 
-        public void Rollback()
-        {
-            if (_dbTransaction != null)
-                _dbTransaction.Rollback();
-        }
+
 
 
 
@@ -107,8 +103,6 @@ namespace Infrastructure.UnitOfWorkFolder
             _dbContext.Entry<TEntity>(entity).State = EntityState.Unchanged;
             return Save();
         }
-
-
 
         public bool RegisterCreateRange<TEntity>(IEnumerable<TEntity> entitys) where TEntity : class
         {
@@ -142,5 +136,10 @@ namespace Infrastructure.UnitOfWorkFolder
             return true;
         }
 
+        public void Rollback()
+        {
+            if (_dbTransaction != null)
+                _dbTransaction.Rollback();
+        }
     }
 }

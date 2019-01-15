@@ -14,9 +14,5 @@ namespace Infrastructure.Data
 
         public DbSet<User> User { get; set; }
 
-        public Task<int> SaveChangesAsync()
-        {
-            return SaveChangesAsync();
-        }
     }
 }

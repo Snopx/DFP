@@ -27,10 +27,10 @@ namespace Application
             return _unitOfWork.Commit();
         }
 
-        public Task<bool> AddAsync(TEntity entity)
+        public async Task<bool> AddAsync(TEntity entity)
         {
-            _unitOfWork.RegisterCreateAsync(entity);
-            return _unitOfWork.CommitAsync();
+            await _unitOfWork.RegisterCreateAsync(entity);
+            return await _unitOfWork.CommitAsync();
 
         }
 
@@ -40,10 +40,10 @@ namespace Application
             return _unitOfWork.Commit();
         }
 
-        public Task<bool> AddRangeAsync(IEnumerable<TEntity> entities)
+        public async Task<bool> AddRangeAsync(IEnumerable<TEntity> entities)
         {
             _unitOfWork.RegisterCreateRange(entities);
-            return _unitOfWork.CommitAsync();
+            return await _unitOfWork.CommitAsync();
         }
 
         public bool Delete(TEntity entity)
@@ -52,10 +52,10 @@ namespace Application
             return _unitOfWork.Commit();
         }
 
-        public Task<bool> DeleteAsync(TEntity entity)
+        public async Task<bool> DeleteAsync(TEntity entity)
         {
-            _unitOfWork.RegisterDeletedAsync(entity);
-            return _unitOfWork.CommitAsync();
+            await _unitOfWork.RegisterDeletedAsync(entity);
+            return await _unitOfWork.CommitAsync();
         }
 
         public bool DeleteById(TPrimaryKey id)
@@ -64,10 +64,10 @@ namespace Application
             return _unitOfWork.Commit();
         }
 
-        public Task<bool> DeleteByIdAsync(TPrimaryKey id)
+        public async Task<bool> DeleteByIdAsync(TPrimaryKey id)
         {
-            _unitOfWork.RegisterDeletedAsync(Get(id));
-            return _unitOfWork.CommitAsync();
+            await _unitOfWork.RegisterDeletedAsync(Get(id));
+            return await _unitOfWork.CommitAsync();
         }
 
         public bool DeleteRange(IEnumerable<TEntity> entities)
@@ -76,10 +76,10 @@ namespace Application
             return _unitOfWork.Commit();
         }
 
-        public Task<bool> DeleteRangeAsync(IEnumerable<TEntity> entities)
+        public async Task<bool> DeleteRangeAsync(IEnumerable<TEntity> entities)
         {
             _unitOfWork.RegisterDeletedRange(entities);
-            return _unitOfWork.CommitAsync();
+            return await _unitOfWork.CommitAsync();
         }
 
         public TEntity Get(TPrimaryKey ID)
@@ -92,14 +92,24 @@ namespace Application
             return _repository.Table.Where(predicate).FirstOrDefault();
         }
 
-        public Task<TEntity> GetAsync(TPrimaryKey ID)
+        public async Task<TEntity> GetAsync(TPrimaryKey ID)
         {
-            return _repository.GetAsync(ID);
+            return await _repository.GetAsync(ID);
         }
 
-        public Task<IQueryable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return _repository.GetAsync(predicate);
+            return await _repository.FindAsync(predicate);
+        }
+
+        public IQueryable<TEntity> GetRange(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _repository.Get(predicate);
+        }
+
+        public async Task<IQueryable<TEntity>> GetRangeAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await _repository.GetAsync(predicate);
         }
 
         public bool Update(TEntity entity)
@@ -108,10 +118,10 @@ namespace Application
             return _unitOfWork.Commit();
         }
 
-        public Task<bool> UpdateAsync(TEntity entity)
+        public async Task<bool> UpdateAsync(TEntity entity)
         {
-            _unitOfWork.RegisterModifiedAsync(entity);
-            return _unitOfWork.CommitAsync();
+            await _unitOfWork.RegisterModifiedAsync(entity);
+            return await _unitOfWork.CommitAsync();
         }
 
         public bool UpdateRange(IEnumerable<TEntity> entities)
@@ -120,10 +130,10 @@ namespace Application
             return _unitOfWork.Commit();
         }
 
-        public Task<bool> UpdateRangeAsync(IEnumerable<TEntity> entities)
+        public async Task<bool> UpdateRangeAsync(IEnumerable<TEntity> entities)
         {
             _unitOfWork.RegisterModifiedRange(entities);
-            return _unitOfWork.CommitAsync();
+            return await _unitOfWork.CommitAsync();
         }
     }
 

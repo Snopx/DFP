@@ -37,6 +37,11 @@ namespace Infrastructure.Repository
         {
             return Table.Where(predicate) as Task<IQueryable<TEntity>>;
         }
+
+        public Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return Table.Where(predicate).FirstOrDefault() as Task<TEntity>;
+        }
     }
 
 

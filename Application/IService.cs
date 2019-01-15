@@ -44,11 +44,17 @@ namespace Application
 
         Task<TEntity> GetAsync(TPrimaryKey ID);
 
-        Task<IQueryable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate);
+
+        Task<IQueryable<TEntity>> GetRangeAsync(Expression<Func<TEntity, bool>> predicate);
+
 
         TEntity Get(TPrimaryKey ID);
 
         TEntity Get(Expression<Func<TEntity, bool>> predicate);
+
+        IQueryable<TEntity> GetRange(Expression<Func<TEntity, bool>> predicate);
+
 
     }
 

@@ -1,4 +1,5 @@
-﻿using Application.SUser;
+﻿using System.Threading.Tasks;
+using Application.SUser;
 using Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,15 +18,15 @@ namespace Web.Mvc.Controllers
             return View(_userService.Table);
         }
 
-        public IActionResult Create(User u)
+        public async Task<IActionResult> Create(User u)
         {
-            _userService.Add(u);
+            await _userService.AddAsync(u);
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Delete(long id)
+        public async Task<IActionResult> Delete(long id)
         {
-            _userService.DeleteById(id);
+            await _userService.DeleteByIdAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
