@@ -60,14 +60,14 @@ namespace Application
 
         public bool DeleteById(TPrimaryKey id)
         {
-            var entity = _repository.Get(id);
-            return _unitOfWork.RegisterDeleted(entity);
+            _unitOfWork.RegisterDeleted(Get(id));
+            return _unitOfWork.Commit();
         }
 
         public Task<bool> DeleteByIdAsync(TPrimaryKey id)
         {
-            var entity = _repository.Get(id);
-            return _unitOfWork.RegisterDeletedAsync(entity);
+            _unitOfWork.RegisterDeletedAsync(Get(id));
+            return _unitOfWork.CommitAsync();
         }
 
         public bool DeleteRange(IEnumerable<TEntity> entities)

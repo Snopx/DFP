@@ -2,8 +2,6 @@
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Infrastructure.ioC
 {
@@ -21,7 +19,5 @@ namespace Infrastructure.ioC
 
             return new AutofacServiceProvider(container);
         }
-
-        
     }
 }
