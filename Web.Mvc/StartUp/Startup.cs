@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace Web.Mvc
+namespace Web.Mvc.StartUp
 {
     public class Startup
     {
@@ -22,15 +22,19 @@ namespace Web.Mvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            #region Cookie保护政策 ban
             //services.Configure<CookiePolicyOptions>(options =>
             //{
             //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
             //    options.CheckConsentNeeded = context => true;
             //    options.MinimumSameSitePolicy = SameSiteMode.None;
             //});
+            #endregion
 
             //自动验证防伪标签 (全局)  亦可用 ValidateAntiForgeryToken 在控制器或控制器下的方法使用。 如果不需要使用可以使用 IgnoreAntiforgeryToken 特性标注
-            services.AddMvc(options=> options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute())).SetCompatibilityVersion(CompatibilityVersion.Latest);
+            services.AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute())).SetCompatibilityVersion(CompatibilityVersion.Latest);
+
+            AuthConfigurer.Configure(services, Configuration);
 
             services.AddDbContext<DFDbContext>(options => options.UseMySql(Configuration.GetConnectionString("Default"), builder => builder.MigrationsAssembly("Infrastructure")));
             return IocConfiguration.UseIoc(services);
@@ -50,6 +54,7 @@ namespace Web.Mvc
 
             app.UseStaticFiles();
             //app.UseCookiePolicy();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

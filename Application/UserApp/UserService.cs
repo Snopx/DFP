@@ -1,14 +1,8 @@
-﻿using Application.SUser;
-using Domain;
+﻿using Domain;
 using Domain.InterFace;
 using Domain.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Application.SUser
+namespace Application.UserApp
 {
     public class UserService : BaseService<User, IRepository<User>>, IUserService
     {

@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Application.SUser;
+using Application.UserApp;
 using Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 

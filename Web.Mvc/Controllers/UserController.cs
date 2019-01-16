@@ -5,7 +5,7 @@ namespace Web.Mvc.Controllers
 {
     public class UserController : Controller
     {
-        public IActionResult Login(string account, string pwd)
+        public IActionResult Login(string account, string pwd,string returnUrl)
         {
             return View();
         }
