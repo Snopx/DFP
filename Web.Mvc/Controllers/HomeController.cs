@@ -1,10 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Application.UserApp;
 using Domain.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Mvc.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IUserService _userService;

@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Data;
 using Infrastructure.ioC;
+using Infrastructure.Util;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ namespace Web.Mvc.StartUp
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            JwtTokenHelper.SetConfiguration(Configuration);
         }
 
         public IConfiguration Configuration { get; }
@@ -51,7 +53,6 @@ namespace Web.Mvc.StartUp
             {
                 //app.UseExceptionHandler("/Home/Error");
             }
-
             app.UseStaticFiles();
             //app.UseCookiePolicy();
             app.UseAuthentication();
@@ -60,7 +61,7 @@ namespace Web.Mvc.StartUp
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=User}/{action=Login}/{id?}");
+                    template: "{controller=User}/{action=Login}");
                 routes.MapRoute(
                     name: "home",
                     template: "{controller=Home}/{action=index}/{id?}");

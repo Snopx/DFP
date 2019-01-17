@@ -4,17 +4,21 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
 namespace Infrastructure.Util
 {
-    public class JwtTokenHelper
+    public static class JwtTokenHelper
     {
-        /// <summary>
-        /// 秘钥，可以从配置文件中获取
-        /// </summary>
-        public static string securityKey = "GQDstclechengroberbojPOXOYg5MbeJ1XT0uFiwDVvVBrk";
+        private static IConfiguration _configuration;
+        private static string securityKey;
+        public static void SetConfiguration(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            securityKey = configuration["Authentication:JwtBearer:SecurityKey"].ToString();
+        }
 
         /// <summary>
         /// 创建jwttoken,源码自定义
@@ -22,7 +26,7 @@ namespace Infrastructure.Util
         /// <param name="payLoad"></param>
         /// <param name="header"></param>
         /// <returns></returns>
-        public static string CreateToken(Dictionary<string, object> payLoad, int expiresMinute, Dictionary<string, object> header = null)
+        public static string CreateToken(int expiresMinute, Dictionary<string, object> header = null)
         {
             if (header == null)
             {
@@ -31,10 +35,15 @@ namespace Infrastructure.Util
                     new KeyValuePair<string, object>("typ", "JWT")
                 });
             }
-            //添加jwt可用时间（应该必须要的）
+            Dictionary<string, object> payLoad = new Dictionary<string, object>
+            {
+                { "aud", _configuration["Authentication:JwtBearer:Audience"] },
+                { "iss", _configuration["Authentication:JwtBearer:Issuer"] }
+            };
+            //添加jwt可用时间
             var now = DateTime.UtcNow;
-            payLoad["nbf"] = ToUnixEpochDate(now);//可用时间起始
-            payLoad["exp"] = ToUnixEpochDate(now.Add(TimeSpan.FromMinutes(expiresMinute)));//可用时间结束
+            payLoad["nbf"] = ToUnixEpochDate(now);//star
+            payLoad["exp"] = ToUnixEpochDate(now.Add(TimeSpan.FromMinutes(expiresMinute)));
 
             var encodedHeader = Base64UrlEncoder.Encode(JsonConvert.SerializeObject(header));
             var encodedPayload = Base64UrlEncoder.Encode(JsonConvert.SerializeObject(payLoad));
@@ -53,9 +62,13 @@ namespace Infrastructure.Util
         /// <param name="payLoad"></param>
         /// <param name="expiresMinute">有效分钟</param>
         /// <returns></returns>
-        public static string CreateTokenByHandler(Dictionary<string, object> payLoad, int expiresMinute)
+        public static string CreateTokenByHandler(int expiresMinute)
         {
-
+            Dictionary<string, object> payLoad = new Dictionary<string, object>
+            {
+                { "aud", _configuration["Authentication:JwtBearer:Audience"] },
+                { "iss", _configuration["Authentication:JwtBearer:Issuer"] }
+            };
             var now = DateTime.UtcNow;
 
             // Specifically add the jti (random nonce), iat (issued timestamp), and sub (subject/user) claims.
@@ -67,8 +80,6 @@ namespace Infrastructure.Util
                 claims.Add(tempClaim);
             }
 
-
-            // Create the JWT and write it to a string
             var jwt = new JwtSecurityToken(
                 issuer: null,
                 audience: null,
