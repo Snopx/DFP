@@ -48,10 +48,11 @@ namespace Web.Mvc.StartUp
 
         public static void ConfigureCookieBase(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(option =>
+            services.AddAuthentication("access_Cookies")
+                .AddCookie("access_Cookies", option =>
                 {
                     option.LoginPath = "/User/Login";
+                    option.AccessDeniedPath = "/User/AccessDeny";
                 });
         }
 
