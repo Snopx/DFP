@@ -53,8 +53,8 @@ namespace Web.Mvc.StartUp
             {
                 //app.UseExceptionHandler("/Home/Error");
             }
-            app.UseStaticFiles();
             //app.UseCookiePolicy();
+            app.UseStaticFiles();
             app.UseAuthentication();
 
             app.UseMvc(routes =>

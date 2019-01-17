@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Mvc.Controllers
 {
-    [Authorize]
+    [Authorize()]
     public class HomeController : Controller
     {
         private readonly IUserService _userService;

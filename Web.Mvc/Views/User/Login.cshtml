@@ -16,10 +16,10 @@
 <body class="text-center">
     <form class="form-signin" asp-action="LoginWithAccount">
         <h1 class="h3 mb-3 font-weight-normal" style="margin-left:-20px;">登录</h1>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="text" name="account" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputAccount" class="sr-only">Email address</label>
+        <input id="inputAccount" type="text" name="Account" class="form-control" placeholder="Account" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" name="pwd" class="form-control" placeholder="Password" required>
+        <input id="inputPassword" type="password" name="Password" class="form-control" placeholder="Password" required>
         <button class="btn btn-primary btn-block" type="submit">Sign in</button>
         <p class="mt-5 mb-3 text-muted">&copy; @DateTime.Now.Year-DarrenFang's Blog</p>
     </form>

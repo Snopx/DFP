@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
-using System.Threading.Tasks;
+using Infrastructure.Util;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,7 @@ namespace Web.Mvc.StartUp
         {
             if (bool.Parse(configuration["Authentication:JwtBearer:IsEnabled"]))
             {
+                services.AddSingleton(configuration.GetSection("Authentication").GetSection("JwtBearer").Get<JwtBearSetting>());
                 services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
                     {
@@ -43,5 +45,16 @@ namespace Web.Mvc.StartUp
                     });
             }
         }
+
+        public static void ConfigureCookieBase(IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(option =>
+                {
+                    option.LoginPath = "/User/Login";
+                });
+        }
+
     }
 }
+

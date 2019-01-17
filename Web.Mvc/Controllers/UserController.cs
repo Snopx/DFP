@@ -17,13 +17,14 @@ namespace Web.Mvc.Controllers
         {
             return View();
         }
-        public IActionResult LoginWithAccount(string account, string pwd,string returnUrl)
+        public IActionResult LoginWithAccount(string Account, string Password, string returnUrl)
         {
-            if (!(account == "admin" && pwd == "123qwe"))
+            if (!(Account == "admin" && Password == "123qwe"))
             {
                 return BadRequest();
             }
-            return Ok(JwtTokenHelper.CreateTokenByHandler(20));
+            HttpContext.Request.Headers.Add("Authorization", "Bearer " + JwtTokenHelper.CreateTokenByHandler("Bearer", "admin",20));
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Logout()

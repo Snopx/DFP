@@ -23,10 +23,9 @@ namespace Infrastructure.Util
         /// <summary>
         /// 创建jwttoken,源码自定义
         /// </summary>
-        /// <param name="payLoad"></param>
         /// <param name="header"></param>
         /// <returns></returns>
-        public static string CreateToken(int expiresMinute, Dictionary<string, object> header = null)
+        public static string CreateToken(string name, string role, int expiresMinute, Dictionary<string, object> header = null)
         {
             if (header == null)
             {
@@ -35,56 +34,42 @@ namespace Infrastructure.Util
                     new KeyValuePair<string, object>("typ", "JWT")
                 });
             }
+            var now = DateTime.UtcNow;
             Dictionary<string, object> payLoad = new Dictionary<string, object>
             {
+                { "name",name},
+                { "sub",role},
+                { "nbf",ToUnixEpochDate(now.AddMinutes(-5))},
+                { "exp",ToUnixEpochDate(now.Add(TimeSpan.FromMinutes(expiresMinute)))},
+                { "iss", _configuration["Authentication:JwtBearer:Issuer"] },
                 { "aud", _configuration["Authentication:JwtBearer:Audience"] },
-                { "iss", _configuration["Authentication:JwtBearer:Issuer"] }
             };
-            //添加jwt可用时间
-            var now = DateTime.UtcNow;
-            payLoad["nbf"] = ToUnixEpochDate(now);//star
-            payLoad["exp"] = ToUnixEpochDate(now.Add(TimeSpan.FromMinutes(expiresMinute)));
-
             var encodedHeader = Base64UrlEncoder.Encode(JsonConvert.SerializeObject(header));
             var encodedPayload = Base64UrlEncoder.Encode(JsonConvert.SerializeObject(payLoad));
 
             var hs256 = new HMACSHA256(Encoding.ASCII.GetBytes(securityKey));
             var encodedSignature = Base64UrlEncoder.Encode(hs256.ComputeHash(Encoding.UTF8.GetBytes(string.Concat(encodedHeader, ".", encodedPayload))));
 
-            var encodedJwt = string.Concat(encodedHeader, ".", encodedPayload, ".", encodedSignature);
-            return encodedJwt;
+            return string.Concat(encodedHeader, ".", encodedPayload, ".", encodedSignature);
         }
 
-        /// <summary>
-        /// 创建jwtToken,采用微软内部方法，默认使用HS256加密，如果需要其他加密方式，请更改源码
-        /// 返回的结果和CreateToken一样
-        /// </summary>
-        /// <param name="payLoad"></param>
+
         /// <param name="expiresMinute">有效分钟</param>
         /// <returns></returns>
-        public static string CreateTokenByHandler(int expiresMinute)
+        public static string CreateTokenByHandler(string name, string role, int expiresMinute)
         {
-            Dictionary<string, object> payLoad = new Dictionary<string, object>
-            {
-                { "aud", _configuration["Authentication:JwtBearer:Audience"] },
-                { "iss", _configuration["Authentication:JwtBearer:Issuer"] }
-            };
             var now = DateTime.UtcNow;
-
-            // Specifically add the jti (random nonce), iat (issued timestamp), and sub (subject/user) claims.
-            // You can add other claims here, if you want:
-            var claims = new List<Claim>();
-            foreach (var key in payLoad.Keys)
+            var claims = new List<Claim>
             {
-                var tempClaim = new Claim(key, payLoad[key]?.ToString());
-                claims.Add(tempClaim);
-            }
+                new Claim("name",name),
+                new Claim("sub",role)
+            };
 
             var jwt = new JwtSecurityToken(
-                issuer: null,
-                audience: null,
+                issuer: _configuration["Authentication:JwtBearer:Issuer"],
+                audience: _configuration["Authentication:JwtBearer:Audience"],
                 claims: claims,
-                notBefore: now,
+                notBefore: now.AddMinutes(-5),
                 expires: now.Add(TimeSpan.FromMinutes(expiresMinute)),
                 signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(securityKey)), SecurityAlgorithms.HmacSha256));
             return new JwtSecurityTokenHandler().WriteToken(jwt);
@@ -134,5 +119,14 @@ namespace Infrastructure.Util
         }
         public static long ToUnixEpochDate(DateTime date) =>
             (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
+    }
+
+
+    public class JwtBearSetting
+    {
+        public bool IsEnabled { get; set; }
+        public string SecurityKey { get; set; }
+        public string Issuer { get; set; }
+        public string Audience { get; set; }
     }
 }
