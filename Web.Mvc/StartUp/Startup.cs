@@ -60,12 +60,8 @@ namespace Web.Mvc.StartUp
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "admin",
-                    template: "admin/{controller=User}/{action=Login}",
-                    defaults: new { module = "admin" });
-                routes.MapRoute(
-                    name: "home",
-                    template: "{controller=Home}/{action=index}/{id?}");
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

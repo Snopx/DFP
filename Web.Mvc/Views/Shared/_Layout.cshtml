@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - DarrenBlog</title>
+    <title>@ViewData["Title"] - DarrenFang's Blog</title>
     <link href="~/lib/bootstrap-4.2.1-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/css/website.css" rel="stylesheet" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -30,15 +30,19 @@
                     <a asp-area="" asp-controller="Home" asp-action="Contact" class="nav-link">Contact</a>
                 </li>
             </ul>
+            <ul class="navbar-nav px-3">
+                <li class="nav-item text-nowrap">
+                    <a asp-area="" asp-controller="User" asp-action="Logout" class="btn btn-outline-light my-2 my-sm-0">Sign out</a>
+                </li>
+            </ul>
         </div>
     </nav>
-    <div class="container">
-
+    <div>
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2018 - Web.Mvc</p>
-        </footer>
     </div>
+    <hr />
+    <footer>
+        <p>&copy; 2018 - Web.Mvc</p>
+    </footer>
 </body>
 </html>

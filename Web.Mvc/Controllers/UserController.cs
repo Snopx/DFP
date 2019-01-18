@@ -16,9 +16,9 @@ namespace Web.Mvc.Controllers
         {
             _configuration = configuration;
         }
-        public IActionResult Login()
+        public IActionResult Login(bool id=true)
         {
-            return View();
+            return View(!id);
         }
         public async Task<IActionResult> LoginWithAccount(string Account, string Password, string returnUrl)
         {
@@ -26,16 +26,17 @@ namespace Web.Mvc.Controllers
             var user = new User { ID = "admin", Password = "123qwe", Gender = Domain.Enum.Gender.Male, Name = "Darrenfang", Roles=Role };
             if (!(Account == user.ID && Password == user.Password))
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Login),new { id=false});
             }
             await HttpContext.SignInAsync(DefaultAuthorizeAttribute.DefaultAuthenticationScheme,
                     new ClaimsPrincipal(CookieBaseaAuth.GetClaimsPrincipal(user)));
-            return Redirect(returnUrl);
+            return LocalRedirect(returnUrl);
         }
 
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            return View();
+            await HttpContext.SignOutAsync(DefaultAuthorizeAttribute.DefaultAuthenticationScheme);
+            return Redirect("/");
         }
 
         public IActionResult AccessDeny()

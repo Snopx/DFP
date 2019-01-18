@@ -51,7 +51,7 @@ namespace Web.Mvc.StartUp
             services.AddAuthentication(DefaultAuthorizeAttribute.DefaultAuthenticationScheme)
                 .AddCookie(DefaultAuthorizeAttribute.DefaultAuthenticationScheme, option =>
                 {
-                    option.LoginPath = "/admin/User/Login";
+                    option.LoginPath = "/User/Login";
                     option.AccessDeniedPath = "/User/AccessDeny";
                 });
         }
