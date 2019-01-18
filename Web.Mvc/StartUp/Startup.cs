@@ -38,7 +38,7 @@ namespace Web.Mvc.StartUp
 
             AuthConfigurer.ConfigureCookieBase(services, Configuration);
 
-            services.AddDbContext<DFDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default"), builder => builder.MigrationsAssembly("Infrastructure")));
+            services.AddDbContext<DFDbContext>(options => options.UseMySql(Configuration.GetConnectionString("Default"), builder => builder.MigrationsAssembly("Infrastructure")));
             return IocConfiguration.UseIoc(services);
         }
 
@@ -60,8 +60,9 @@ namespace Web.Mvc.StartUp
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=User}/{action=Login}");
+                    name: "admin",
+                    template: "admin/{controller=User}/{action=Login}",
+                    defaults: new { module = "admin" });
                 routes.MapRoute(
                     name: "home",
                     template: "{controller=Home}/{action=index}/{id?}");
