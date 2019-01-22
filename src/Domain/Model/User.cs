@@ -9,12 +9,14 @@ namespace Domain.Model
     public class User : BaseEntity<string>, IIdentity
     {
         [Required]
+        [MaxLength(30)]
         public string Name { get; set; }
         [Required]
         public Gender Gender { get; set; }
-
+        [MaxLength(20)]
         public string Email { get; set; }
         [Required]
+        [MaxLength(50)]
         public string Password { get; set; }
 
         [NotMapped]

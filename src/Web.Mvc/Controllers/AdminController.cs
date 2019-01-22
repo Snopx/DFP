@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Mvc.Controllers
 {
+    [Authorize]
     public class AdminController: Controller
     {
-
         public IActionResult DashBord()
         {
             return View();
