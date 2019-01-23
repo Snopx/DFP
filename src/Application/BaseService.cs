@@ -1,5 +1,5 @@
 ﻿using Domain;
-using Domain.InterFace;
+using Domain.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;

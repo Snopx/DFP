@@ -1,7 +1,7 @@
 ﻿using Application;
 using Autofac;
 using Domain;
-using Domain.InterFace;
+using Domain.Interface;
 using Infrastructure.Data;
 using Infrastructure.Repository;
 using Infrastructure.UnitOfWorkFolder;

@@ -1,5 +1,5 @@
 ﻿using Domain;
-using Domain.InterFace;
+using Domain.Interface;
 using Domain.Model;
 
 namespace Application.UserApp
