@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Web.Mvc.StartUp
+namespace Infrastructure.Util
 {
     public class AuthConfigurer
     {

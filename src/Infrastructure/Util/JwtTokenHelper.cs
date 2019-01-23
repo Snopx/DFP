@@ -25,7 +25,7 @@ namespace Infrastructure.Util
         /// </summary>
         /// <param name="header"></param>
         /// <returns></returns>
-        public static string CreateToken(string name, string role, int expiresMinute, Dictionary<string, object> header = null)
+        public static string CreateToken(string name, string role, int expiresMinute=20, Dictionary<string, object> header = null)
         {
             if (header == null)
             {
@@ -37,8 +37,8 @@ namespace Infrastructure.Util
             var now = DateTime.UtcNow;
             Dictionary<string, object> payLoad = new Dictionary<string, object>
             {
-                { "name",name},
-                { "sub",role},
+                { ClaimTypes.Name,name},
+                { ClaimTypes.Role,role},
                 { "nbf",ToUnixEpochDate(now.AddMinutes(-5))},
                 { "exp",ToUnixEpochDate(now.Add(TimeSpan.FromMinutes(expiresMinute)))},
                 { "iss", _configuration["Authentication:JwtBearer:Issuer"] },
@@ -56,13 +56,13 @@ namespace Infrastructure.Util
 
         /// <param name="expiresMinute">有效分钟</param>
         /// <returns></returns>
-        public static string CreateTokenByHandler(string name, string role, int expiresMinute)
+        public static string CreateTokenByHandler(string name, string role, int expiresMinute=20)
         {
             var now = DateTime.UtcNow;
             var claims = new List<Claim>
             {
-                new Claim("name",name),
-                new Claim("sub",role)
+                new Claim(ClaimTypes.Name,name),
+                new Claim(ClaimTypes.Role,role)
             };
 
             var jwt = new JwtSecurityToken(
