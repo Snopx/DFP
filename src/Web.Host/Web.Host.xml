@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Web.Host</name>
+    </assembly>
+    <members>
+        <member name="M:Web.Host.Controllers.ValuesController.Get">
+            <summary>
+            teadsf s 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Web.Host.Program">
+            <summary>
+            Program to setup
+            </summary>
+        </member>
+        <member name="M:Web.Host.Program.Main(System.String[])">
+            <summary>
+            program entry
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:Web.Host.Program.CreateWebHostBuilder(System.String[])">
+            <summary>
+            IWebHostBuilder builder method
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Web.Host.Startup">
+            <summary>
+            Startup
+            </summary>
+        </member>
+        <member name="M:Web.Host.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            construction of Startup
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="P:Web.Host.Startup.Configuration">
+            <summary>
+            Get the Configuration (DI)
+            </summary>
+        </member>
+        <member name="M:Web.Host.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            add service to collection
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Web.Host.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+            <summary>
+            configure the http pipeline
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
+    </members>
+</doc>

@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Mvc", "src\Web.Mvc\Web.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFTest", "test\DFTest\DFTest.csproj", "{33E5EEF7-A7B5-4171-8FA8-D85F91555E30}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Host", "src\Web.Host\Web.Host.csproj", "{FAACBD9E-0094-4BCF-9872-FF12F715DC97}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{33E5EEF7-A7B5-4171-8FA8-D85F91555E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33E5EEF7-A7B5-4171-8FA8-D85F91555E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33E5EEF7-A7B5-4171-8FA8-D85F91555E30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAACBD9E-0094-4BCF-9872-FF12F715DC97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAACBD9E-0094-4BCF-9872-FF12F715DC97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAACBD9E-0094-4BCF-9872-FF12F715DC97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAACBD9E-0094-4BCF-9872-FF12F715DC97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +59,7 @@ Global
 		{E73E16D6-9D32-4B56-A42B-F3B0F7893299} = {1F95C637-F89D-4BA6-B5B7-06CD823B2092}
 		{9C79CBD0-D986-4AEE-96A3-DB3CAFBCBBE6} = {1F95C637-F89D-4BA6-B5B7-06CD823B2092}
 		{33E5EEF7-A7B5-4171-8FA8-D85F91555E30} = {DC14ED23-41F2-402E-82C9-C2AC9BCBB5B2}
+		{FAACBD9E-0094-4BCF-9872-FF12F715DC97} = {1F95C637-F89D-4BA6-B5B7-06CD823B2092}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FA26A1DD-B133-491F-9CCB-B86FF6E119DF}
