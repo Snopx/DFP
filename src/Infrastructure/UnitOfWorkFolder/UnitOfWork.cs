@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Domain;
 using Domain.Interface;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -52,25 +53,25 @@ namespace Infrastructure.UnitOfWorkFolder
             return true;
         }
 
-        public async Task<bool> RegisterCleanAsync<TEntity>(TEntity entity) where TEntity : class
+        public async Task<bool> RegisterCleanAsync<TEntity>(TEntity entity) where TEntity : class, IEntity
         {
             _dbContext.Entry<TEntity>(entity).State = EntityState.Unchanged;
             return await SaveAsync();
         }
 
-        public async Task<bool> RegisterCreateAsync<TEntity>(TEntity entity) where TEntity : class
+        public async Task<bool> RegisterCreateAsync<TEntity>(TEntity entity) where TEntity : class, IEntity
         {
             await _dbContext.Set<TEntity>().AddAsync(entity);
             return await SaveAsync();
         }
 
-        public async Task<bool> RegisterDeletedAsync<TEntity>(TEntity entity) where TEntity : class
+        public async Task<bool> RegisterDeletedAsync<TEntity>(TEntity entity) where TEntity : class, IEntity
         {
             _dbContext.Set<TEntity>().Remove(entity);
             return await SaveAsync();
         }
 
-        public async Task<bool> RegisterModifiedAsync<TEntity>(TEntity entity) where TEntity : class
+        public async Task<bool> RegisterModifiedAsync<TEntity>(TEntity entity) where TEntity : class, IEntity
         {
             _dbContext.Entry<TEntity>(entity).State = EntityState.Modified;
             return await SaveAsync();
@@ -80,43 +81,43 @@ namespace Infrastructure.UnitOfWorkFolder
 
 
 
-        public bool RegisterCreate<TEntity>(TEntity entity) where TEntity : class
+        public bool RegisterCreate<TEntity>(TEntity entity) where TEntity : class, IEntity
         {
             _dbContext.Set<TEntity>().Add(entity);
             return Save();
         }
 
-        public bool RegisterDeleted<TEntity>(TEntity entity) where TEntity : class
+        public bool RegisterDeleted<TEntity>(TEntity entity) where TEntity : class, IEntity
         {
             _dbContext.Set<TEntity>().Remove(entity);
             return Save();
         }
 
-        public bool RegisterModified<TEntity>(TEntity entity) where TEntity : class
+        public bool RegisterModified<TEntity>(TEntity entity) where TEntity : class, IEntity
         {
             _dbContext.Entry<TEntity>(entity).State = EntityState.Modified;
             return Save();
         }
 
-        public bool RegisterClean<TEntity>(TEntity entity) where TEntity : class
+        public bool RegisterClean<TEntity>(TEntity entity) where TEntity : class, IEntity
         {
             _dbContext.Entry<TEntity>(entity).State = EntityState.Unchanged;
             return Save();
         }
 
-        public bool RegisterCreateRange<TEntity>(IEnumerable<TEntity> entitys) where TEntity : class
+        public bool RegisterCreateRange<TEntity>(IEnumerable<TEntity> entitys) where TEntity : class, IEntity
         {
             _dbContext.Set<TEntity>().AddRange(entitys);
             return Save();
         }
 
-        public bool RegisterDeletedRange<TEntity>(IEnumerable<TEntity> entitys) where TEntity : class
+        public bool RegisterDeletedRange<TEntity>(IEnumerable<TEntity> entitys) where TEntity : class, IEntity
         {
             _dbContext.Set<TEntity>().RemoveRange(entitys);
             return Save();
         }
 
-        public bool RegisterModifiedRange<TEntity>(IEnumerable<TEntity> entitys) where TEntity : class
+        public bool RegisterModifiedRange<TEntity>(IEnumerable<TEntity> entitys) where TEntity : class, IEntity
         {
             _dbContext.Set<TEntity>().AttachRange(entitys);
             _dbContext.Set<TEntity>().UpdateRange(entitys);
