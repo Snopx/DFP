@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Domain.Interface;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain
 {

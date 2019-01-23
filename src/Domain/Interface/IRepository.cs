@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Domain
+namespace Domain.Interface
 {
     public interface IRepository<TEntity, TPrimaryKey> where TEntity : class, IEntity
     {
