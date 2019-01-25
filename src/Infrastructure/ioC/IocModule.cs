@@ -1,18 +1,21 @@
 ﻿using Application;
 using Autofac;
-using Domain;
+using Autofac.Extras.DynamicProxy;
 using Domain.Interface;
+using Infrastructure.aop;
 using Infrastructure.Data;
 using Infrastructure.Repository;
 using Infrastructure.UnitOfWorkFolder;
 
 namespace Infrastructure.ioC
 {
-    public class IocModule : Autofac.Module
+    public class IocModule : Module
     {
 
         protected override void Load(ContainerBuilder builder)
         {
+            //aop
+            builder.RegisterType<BaseAop>();
             //UnitOfWork
             builder.RegisterType<DFDbContext>().As<IDbContext>().InstancePerLifetimeScope();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
@@ -27,11 +30,15 @@ namespace Infrastructure.ioC
             builder.RegisterAssemblyTypes(typeof(IService<,>).Assembly)
                 .Where(t => t.Name.EndsWith("Service"))
                 .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
+                .InstancePerLifetimeScope()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(BaseAop));
             builder.RegisterAssemblyTypes(typeof(IService<>).Assembly)
                 .Where(t => t.Name.EndsWith("Service"))
                 .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
+                .InstancePerLifetimeScope()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(BaseAop));
 
         }
 
