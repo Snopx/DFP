@@ -10,9 +10,9 @@ namespace Infrastructure.aop
         public void Intercept(IInvocation invocation)
         {
             //记录被拦截方法信息的日志信息
-            var dataIntercept = $"{DateTime.Now.ToString("yyyyMMddHHmmss")} " +
+            var dataIntercept = $"{DateTime.Now.ToString("HH:mm:ss")} " +
                 $"当前执行方法：{ invocation.Method.Name} " +
-                $"参数是： {string.Join(", ", invocation.Arguments.Select(a => (a ?? "").ToString()).ToArray())} \r\n";
+                $"参数： {string.Join(", ", invocation.Arguments.Select(a => (a ?? "").ToString()).ToArray())} \r\n";
 
             //在被拦截的方法执行完毕后 继续执行当前方法
             try
@@ -21,9 +21,9 @@ namespace Infrastructure.aop
             }
             catch (Exception e)
             {
-                dataIntercept += $"方法中执行的异常：''{e.InnerException}''\r\n";
+                dataIntercept += $"Exception：''{e.InnerException}''\r\n";
             }
-            dataIntercept += ($"被拦截方法执行完毕，返回结果：{invocation.ReturnValue}");
+            dataIntercept += ($"Return Value：{invocation.ReturnValue}\r\n");
 
 
             #region 输出到当前项目日志
@@ -32,10 +32,13 @@ namespace Infrastructure.aop
             {
                 Directory.CreateDirectory(path);
             }
-            string fileName = path + $@"\InterceptLog-{DateTime.Now.ToString("yyyyMMddHHmmss")}.log";
-            StreamWriter sw = File.AppendText(fileName);
-            sw.WriteLine(dataIntercept);
-            sw.Close();
+            string fileName = path + $@"\InterceptLog-{DateTime.Now.ToString("yyyy-MM-dd")}.log";
+            using (StreamWriter sw = File.AppendText(fileName))
+            {
+                sw.WriteLine(dataIntercept);
+                sw.Flush();
+                sw.Close();
+            }
             #endregion
         }
     }
