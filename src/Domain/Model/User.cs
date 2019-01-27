@@ -6,7 +6,7 @@ using System.Security.Principal;
 
 namespace Domain.Model
 {
-    public class User : BaseEntity<string>, IIdentity
+    public class User : BaseEntity, IIdentity
     {
         [Required]
         [MaxLength(30)]
@@ -15,7 +15,7 @@ namespace Domain.Model
         public Gender Gender { get; set; }
         [MaxLength(20)]
         public string Email { get; set; }
-        [Required]
+        //[Required]
         [MaxLength(50)]
         public string Password { get; set; }
 

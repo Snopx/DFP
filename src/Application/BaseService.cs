@@ -21,116 +21,116 @@ namespace Application
 
         public IQueryable<TEntity> Table => _repository.Table;
 
-        public bool Add(TEntity entity)
+        public virtual bool Add(TEntity entity)
         {
             _unitOfWork.RegisterCreate(entity);
             return _unitOfWork.Commit();
         }
 
-        public async Task<bool> AddAsync(TEntity entity)
+        public virtual async Task<bool> AddAsync(TEntity entity)
         {
             await _unitOfWork.RegisterCreateAsync(entity);
             return await _unitOfWork.CommitAsync();
 
         }
 
-        public bool AddRange(IEnumerable<TEntity> entities)
+        public virtual bool AddRange(IEnumerable<TEntity> entities)
         {
             _unitOfWork.RegisterCreateRange(entities);
             return _unitOfWork.Commit();
         }
 
-        public async Task<bool> AddRangeAsync(IEnumerable<TEntity> entities)
+        public virtual async Task<bool> AddRangeAsync(IEnumerable<TEntity> entities)
         {
             _unitOfWork.RegisterCreateRange(entities);
             return await _unitOfWork.CommitAsync();
         }
 
-        public bool Delete(TEntity entity)
+        public virtual bool Delete(TEntity entity)
         {
             _unitOfWork.RegisterDeleted(entity);
             return _unitOfWork.Commit();
         }
 
-        public async Task<bool> DeleteAsync(TEntity entity)
+        public virtual async Task<bool> DeleteAsync(TEntity entity)
         {
             await _unitOfWork.RegisterDeletedAsync(entity);
             return await _unitOfWork.CommitAsync();
         }
 
-        public bool DeleteById(TPrimaryKey id)
+        public virtual bool DeleteById(TPrimaryKey id)
         {
             _unitOfWork.RegisterDeleted(Get(id));
             return _unitOfWork.Commit();
         }
 
-        public async Task<bool> DeleteByIdAsync(TPrimaryKey id)
+        public virtual async Task<bool> DeleteByIdAsync(TPrimaryKey id)
         {
             await _unitOfWork.RegisterDeletedAsync(Get(id));
             return await _unitOfWork.CommitAsync();
         }
 
-        public bool DeleteRange(IEnumerable<TEntity> entities)
+        public virtual bool DeleteRange(IEnumerable<TEntity> entities)
         {
             _unitOfWork.RegisterDeletedRange(entities);
             return _unitOfWork.Commit();
         }
 
-        public async Task<bool> DeleteRangeAsync(IEnumerable<TEntity> entities)
+        public virtual async Task<bool> DeleteRangeAsync(IEnumerable<TEntity> entities)
         {
             _unitOfWork.RegisterDeletedRange(entities);
             return await _unitOfWork.CommitAsync();
         }
 
-        public TEntity Get(TPrimaryKey ID)
+        public virtual TEntity Get(TPrimaryKey ID)
         {
             return _repository.Get(ID);
         }
 
-        public TEntity Get(Expression<Func<TEntity, bool>> predicate)
+        public virtual TEntity Get(Expression<Func<TEntity, bool>> predicate)
         {
             return _repository.Table.Where(predicate).FirstOrDefault();
         }
 
-        public async Task<TEntity> GetAsync(TPrimaryKey ID)
+        public virtual async Task<TEntity> GetAsync(TPrimaryKey ID)
         {
             return await _repository.GetAsync(ID);
         }
 
-        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return await _repository.FindAsync(predicate);
         }
 
-        public IQueryable<TEntity> GetRange(Expression<Func<TEntity, bool>> predicate)
+        public virtual IQueryable<TEntity> GetRange(Expression<Func<TEntity, bool>> predicate)
         {
             return _repository.Get(predicate);
         }
 
-        public async Task<IQueryable<TEntity>> GetRangeAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<IQueryable<TEntity>> GetRangeAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return await _repository.GetAsync(predicate);
         }
 
-        public bool Update(TEntity entity)
+        public virtual bool Update(TEntity entity)
         {
             _unitOfWork.RegisterModified(entity);
             return _unitOfWork.Commit();
         }
 
-        public async Task<bool> UpdateAsync(TEntity entity)
+        public virtual async Task<bool> UpdateAsync(TEntity entity)
         {
             await _unitOfWork.RegisterModifiedAsync(entity);
             return await _unitOfWork.CommitAsync();
         }
 
-        public bool UpdateRange(IEnumerable<TEntity> entities)
+        public virtual bool UpdateRange(IEnumerable<TEntity> entities)
         {
             _unitOfWork.RegisterModifiedRange(entities);
             return _unitOfWork.Commit();
         }
 
-        public async Task<bool> UpdateRangeAsync(IEnumerable<TEntity> entities)
+        public virtual async Task<bool> UpdateRangeAsync(IEnumerable<TEntity> entities)
         {
             _unitOfWork.RegisterModifiedRange(entities);
             return await _unitOfWork.CommitAsync();

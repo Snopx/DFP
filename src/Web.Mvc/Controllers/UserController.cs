@@ -22,14 +22,14 @@ namespace Web.Mvc.Controllers
         }
         public async Task<IActionResult> LoginWithAccount(string Account, string Password, string returnUrl)
         {
-            var Role = new List<Role>() { new Role { ID=1,RoleName="Admin"}};
-            var user = new User { ID = "admin", Password = "123qwe", Gender = Domain.Enum.Gender.Male, Name = "Darrenfang", Roles=Role };
-            if (!(Account == user.ID && Password == user.Password))
-            {
-                return RedirectToAction(nameof(Login),new { id=false});
-            }
-            await HttpContext.SignInAsync(DefaultAuthorizeAttribute.DefaultAuthenticationScheme,
-                    new ClaimsPrincipal(CookieBaseaAuth.GetClaimsPrincipal(user)));
+            //var Role = new List<Role>() { new Role { ID=1,RoleName="Admin"}};
+            //var user = new User { ID = "admin", Password = "123qwe", Gender = Domain.Enum.Gender.Male, Name = "Darrenfang", Roles=Role };
+            //if (!(Account == user.ID && Password == user.Password))
+            //{
+            //    return RedirectToAction(nameof(Login),new { id=false});
+            //}
+            //await HttpContext.SignInAsync(DefaultAuthorizeAttribute.DefaultAuthenticationScheme,
+            //        new ClaimsPrincipal(CookieBaseaAuth.GetClaimsPrincipal(user)));
             return LocalRedirect(returnUrl);
         }
 

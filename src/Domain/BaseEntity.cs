@@ -10,7 +10,6 @@ namespace Domain
     public abstract class BaseEntity<TPrimary> : IEntity
     {
         [Key]
-        [MaxLength(36)]
         public virtual TPrimary ID { get; set; }
     }
 

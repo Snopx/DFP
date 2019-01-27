@@ -16,7 +16,7 @@ namespace Infrastructure.Util
         {
             var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, user.ID),
+                    new Claim(ClaimTypes.Name, user.ID.ToString()),
                     new Claim("FullName", user.Name),
                     new Claim(ClaimTypes.Role, string.Join(',',user.Roles.Select(m =>m.ID.ToString()).ToArray())),
                 };
