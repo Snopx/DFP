@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Application.AutoMapper;
+using AutoMapper;
 using Infrastructure.Data;
 using Infrastructure.ioC;
 using Infrastructure.Util;
@@ -79,6 +81,33 @@ namespace Web.Host
                 #endregion
             });
             #endregion
+            #region CORS
+            services.AddCors(c =>
+            {
+                //↓↓↓↓↓↓↓注意正式环境不要使用这种全开放的处理↓↓↓↓↓↓↓↓↓↓
+                c.AddPolicy("AllRequests", policy =>
+                {
+                    policy
+                    .AllowAnyOrigin()//允许任何源
+                    .AllowAnyMethod()//允许任何方式
+                    .AllowAnyHeader()//允许任何头
+                    .AllowCredentials();//允许cookie
+                });
+                //↑↑↑↑↑↑↑注意正式环境不要使用这种全开放的处理↑↑↑↑↑↑↑↑↑↑
+
+
+                //一般采用这种方法
+                c.AddPolicy("LimitRequests", policy =>
+                {
+                    policy
+                    .WithOrigins("http://localhost:8020", "http://blog.core.xxx.com")//支持多个域名端口
+                    .AllowAnyHeader()//Ensures that the policy allows any header.
+                    .AllowAnyMethod();//标头添加到策略
+                });
+
+            });
+            #endregion
+            services.AddAutoMapper();
             services.AddDbContext<DFDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default"), builder => builder.MigrationsAssembly("Infrastructure")));
             return IocConfiguration.UseIoc(services);
         }
@@ -104,6 +133,8 @@ namespace Web.Host
             });
             #endregion
             app.UseStaticFiles();
+            app.UseCors("LimitRequests");
+            AutomapperHelper.RegisterMappings();
             app.UseAuthentication();
             app.UseMvc();
         }

@@ -1,4 +1,6 @@
-﻿using Infrastructure.Data;
+﻿using Application.AutoMapper;
+using AutoMapper;
+using Infrastructure.Data;
 using Infrastructure.ioC;
 using Infrastructure.Util;
 using Microsoft.AspNetCore.Builder;
@@ -37,6 +39,7 @@ namespace Web.Mvc.StartUp
             services.AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute())).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             AuthConfigurer.ConfigureCookieBase(services, Configuration);
+            services.AddAutoMapper();
 
             services.AddDbContext<DFDbContext>(options => options.UseMySql(Configuration.GetConnectionString("Default")));
             return IocConfiguration.UseIoc(services);
@@ -56,6 +59,7 @@ namespace Web.Mvc.StartUp
             //app.UseCookiePolicy();
             app.UseStaticFiles();
             app.UseAuthentication();
+            AutomapperHelper.RegisterMappings();
 
             app.UseMvc(routes =>
             {

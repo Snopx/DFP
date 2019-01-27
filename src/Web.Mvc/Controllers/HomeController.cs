@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Application.UserApp;
+using AutoMapper;
 using Domain.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,14 +12,17 @@ namespace Web.Mvc.Controllers
     public class HomeController : Controller
     {
         private readonly IUserService _userService;
-        public HomeController(IUserService userService)
+        private IMapper _mapper { get; set; }
+        public HomeController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
         {
-            return View(_userService.Table);
+            var user= _mapper.Map<List<UserDto>>(_userService.Table.ToList());
+            return View(user);
         }
 
         public async Task<IActionResult> Create(User u)
