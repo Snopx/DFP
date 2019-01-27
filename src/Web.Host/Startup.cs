@@ -59,7 +59,7 @@ namespace Web.Host
                 {
                     Version = "v0.1.0",
                     Title = title,
-                    Description = "框架说明文档",
+                    Description = "API文档",
                     Contact = new Contact { Name = "DarrenFang", Email = "darrenfang94@gmail.com", Url = "https://github.com/Snopx" }
                 });
                 string basePath = Microsoft.DotNet.PlatformAbstractions.ApplicationEnvironment.ApplicationBasePath;

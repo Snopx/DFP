@@ -41,7 +41,7 @@ namespace Web.Mvc.StartUp
             AuthConfigurer.ConfigureCookieBase(services, Configuration);
             services.AddAutoMapper();
 
-            services.AddDbContext<DFDbContext>(options => options.UseMySql(Configuration.GetConnectionString("Default")));
+            services.AddDbContext<DFDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
             return IocConfiguration.UseIoc(services);
         }
 
