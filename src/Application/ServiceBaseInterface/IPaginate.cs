@@ -4,11 +4,16 @@ using Domain.Interface;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Application.ServiceBaseInterface
 {
-    public interface IPaginate<T> where T : class,IEntityDto //理论上，所有的数据都需要dto
+    public interface IPaginate<T,TParameter> where T : class,IEntityDto where TParameter: QueryParameters
     {
-        PaginatedList<T> GetPageEntitys(QueryParameters queryParameters);
+        Task<PaginatedList<T>> GetPageEntitys(TParameter queryParameters);
+    }
+
+    public interface IPaginate<T> : IPaginate<T, QueryParameters> where T :class,IEntityDto 
+    {
     }
 }

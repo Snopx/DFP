@@ -25,7 +25,7 @@ namespace Domain.Base
         public PaginatedList(int pageIndex,int pageSize,int totalItemsCount,IEnumerable<T> data)
         {
             PageIndex = pageIndex;
-            PageSize = PageSize;
+            PageSize = pageSize;
             TotalItemsCount = totalItemsCount;
             AddRange(data);
         }

@@ -1,27 +1,41 @@
-﻿@{
+﻿@using Domain.QueryParameterFolder
+@{
     Layout = "_AdminLayout";
     ViewData["Title"] = "Article";
 }
-@using Domain.Model
-@model List<Article>
+@using Domain.Base
+@using Domain.Enum
+@using Application.ArticleApp.Dto
+@model PaginatedList<ArticleOutputDto>
 
 <link href="~/lib/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" />
 
+@Model.PageSize
+
 <div id="toolbar">
     <a href="/admin/NewArticle" class="text-decoration-none"><i class="fas fa-plus"></i>New Article</a>
-    <form class="">
-        <div class="float-right">
+    <form asp-controller="Admin" asp-action="Article">
+        <input type="hidden" name="PageIndex" value="@Model.PageIndex" />
+        <input type="hidden" name="PageSize" value="@Model.PageSize" />
+        <div class="float-right d-md-inline-block">
             <div class="input-group mb-4">
-                <input class="form-control" type="text" placeholder="Search">
-                @*<input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">*@
+                <label for="ArticleType" class="col-sm-2 col-form-label mr-2">ArticleType:</label>
+                <select id="ArticleType" name="ArticleType" class="mr-2 form-control">
+                    <option value="">All</option>
+                    @foreach (var item in Enum.GetValues(typeof(ArticleType)))
+                    {
+                        <option value="@((int)item)">@Enum.GetName(typeof(ArticleType), item)</option>
+                    }
+                </select>
+                <input class="form-control" type="text" placeholder="Search Title" name="Title">
                 <div class="input-group-append">
-                    <a class="btn btn-outline-success" id="button-addon2">Search</a>
+                    <input type="submit" class="btn border-dark" value="Search">
                 </div>
             </div>
         </div>
     </form>
 </div>
-<table data-toggle="table" data-pagination="true" data-side-pagination="server" data-page-size="10">
+<table id="articleTable" data-classes="table table-borderless table-hover" data-toggle="table" data-side-pagination="server" data-page-size="20" data-height="70%">
     <thead>
         <tr>
             <th data-align="center">Title</th>
@@ -38,14 +52,27 @@
                 <td>@item.ArticleType</td>
                 <td>@item.CreateTime</td>
                 <td>
-                    <a href="#" class="btn btn-sm btn-info">Modify</a>
-                    <a href="#" class="btn btn-sm btn-warning">Remove</a>
+                    <a href="#" class="btn btn-sm btn-outline-secondary">Modify</a>
+                    <a href="#" class="btn btn-sm btn-outline-danger">Remove</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-
+<div class="mt-2 float-md-right">
+    <nav>
+        <ul class="pagination">
+            @if (Model.HasPrevious)
+            {
+                <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+            }
+            @*@if (Model.HasNext)
+            {
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            }*@
+        </ul>
+    </nav>
+</div>
 <script src="~/lib/bootstrap-table/bootstrap-table.min.js"></script>
 <script>
     (function () {

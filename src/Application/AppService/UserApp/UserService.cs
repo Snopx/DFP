@@ -1,4 +1,6 @@
-﻿using Domain;
+﻿using System.Threading.Tasks;
+using Application.ServiceBaseInterface;
+using Domain;
 using Domain.Base;
 using Domain.Interface;
 using Domain.Model;
@@ -11,7 +13,7 @@ namespace Application.UserApp
         {
         }
 
-        public PaginatedList<UserDto> GetPageEntitys(QueryParameters queryParameters)
+        public Task<PaginatedList<UserDto>> GetPageEntitys(QueryParameters queryParameters)
         {
             throw new System.NotImplementedException();
         }

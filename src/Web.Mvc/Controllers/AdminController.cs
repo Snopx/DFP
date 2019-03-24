@@ -7,9 +7,11 @@ using Application.ArticleApp;
 using AutoMapper;
 using Domain.Interface;
 using Domain.Model;
+using Domain.QueryParameterFolder;
 using Infrastructure.Util;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Web.Mvc.Controllers
 {
@@ -18,12 +20,10 @@ namespace Web.Mvc.Controllers
     {
         private readonly IArticleService _articleService;
         private readonly IMapper _mapper;
-        private IRepository<Article> _repository;
         public AdminController(IArticleService articleService, IMapper mapper, IRepository<Article> repository)
         {
             _articleService = articleService;
             _mapper = mapper;
-            _repository = repository;
         }
         public IActionResult Dashboard()
         {
@@ -31,9 +31,9 @@ namespace Web.Mvc.Controllers
         }
 
 
-        public async Task<IActionResult> Article()
+        public async Task<IActionResult> Article(ArticleParameter input)
         {
-            var result = _repository.Table.ToList() ;
+            var result = await _articleService.GetPageEntitys(input);
             return View(result);
         }
 
