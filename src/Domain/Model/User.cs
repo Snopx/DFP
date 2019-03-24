@@ -1,4 +1,6 @@
-﻿using Domain.Enum;
+﻿using Domain.Base;
+using Domain.Enum;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,17 +10,24 @@ namespace Domain.Model
 {
     public class User : BaseEntity, IIdentity
     {
-        [Required]
-        [MaxLength(30)]
+        [MinLength(5),MaxLength(10)]
+        public string Account { get; set; }
+
+        [MaxLength(30), Required]
         public string Name { get; set; }
-        [Required]
+
         public Gender Gender { get; set; }
-        [MaxLength(20)]
+
+        [MaxLength(30)]
         public string Email { get; set; }
-        //[Required]
-        [MaxLength(50)]
+        [MaxLength(128), Required]
         public string Password { get; set; }
 
+        /// <summary>
+        /// 个性签名
+        /// </summary>
+        [MaxLength(80)]
+        public string Personality { get; set; }
         [NotMapped]
         public virtual IEnumerable<Role> Roles { get; set; }
         [NotMapped]

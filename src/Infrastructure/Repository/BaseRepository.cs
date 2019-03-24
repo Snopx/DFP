@@ -31,22 +31,14 @@ namespace Infrastructure.Repository
 
         public IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> predicate)
         {
-            return Table.Where(predicate);
+            return context.Set<TEntity>().Where(predicate);
         }
 
-        public Task<IQueryable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return Table.Where(predicate) as Task<IQueryable<TEntity>>;
-        }
 
-        public Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return Table.Where(predicate).FirstOrDefault() as Task<TEntity>;
-        }
     }
 
 
-    public class BaseRepository<TEntity> : BaseRepository<TEntity, long>, IRepository<TEntity> where TEntity : class, IEntity
+    public class BaseRepository<TEntity> : BaseRepository<TEntity, int>, IRepository<TEntity> where TEntity : class, IEntity
     {
         public BaseRepository(DFDbContext context) : base(context)
         {

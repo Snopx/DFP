@@ -1,0 +1,54 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Article";
+}
+@using Domain.Model
+@model List<Article>
+
+<link href="~/lib/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" />
+
+<div id="toolbar">
+    <a href="/admin/NewArticle" class="text-decoration-none"><i class="fas fa-plus"></i>New Article</a>
+    <form class="">
+        <div class="float-right">
+            <div class="input-group mb-4">
+                <input class="form-control" type="text" placeholder="Search">
+                @*<input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">*@
+                <div class="input-group-append">
+                    <a class="btn btn-outline-success" id="button-addon2">Search</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<table data-toggle="table" data-pagination="true" data-side-pagination="server" data-page-size="10">
+    <thead>
+        <tr>
+            <th data-align="center">Title</th>
+            <th data-align="center">Type</th>
+            <th data-align="center">CreateTime</th>
+            <th data-align="center">Operation</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.ArticleType</td>
+                <td>@item.CreateTime</td>
+                <td>
+                    <a href="#" class="btn btn-sm btn-info">Modify</a>
+                    <a href="#" class="btn btn-sm btn-warning">Remove</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="~/lib/bootstrap-table/bootstrap-table.min.js"></script>
+<script>
+    (function () {
+
+    })();
+</script>

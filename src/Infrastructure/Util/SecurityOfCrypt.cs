@@ -7,9 +7,11 @@ namespace Infrastructure.Util
     public class SecurityOfCrypt
     {
         private static byte[] Keys = { 0x41, 0x72, 0x65, 0x79, 0x6F, 0x75, 0x6D, 0x79, 0x53, 0x6E, 0x6F, 0x77, 0x6D, 0x61, 0x6E, 0x3F };
+        public static readonly string DefaultEncryptKey = "A00B9EB1086442128EFC869B00DF4954";
 
-        public static string Encode(string encryptString, string encryptKey)
+        public static string Encode(string encryptString, string encryptKey="")
         {
+            if (string.IsNullOrWhiteSpace(encryptKey)) encryptKey = DefaultEncryptKey;
             encryptKey = GetSubString(encryptKey, 0, 32, "");
             encryptKey = encryptKey.PadRight(32, ' ');
 
@@ -24,8 +26,9 @@ namespace Infrastructure.Util
             return Convert.ToBase64String(encryptedData);
         }
 
-        public static string Decode(string decryptString, string decryptKey)
+        public static string Decode(string decryptString, string decryptKey="")
         {
+            if (string.IsNullOrWhiteSpace(decryptKey)) decryptKey = DefaultEncryptKey;
             try
             {
                 decryptKey = GetSubString(decryptKey, 0, 32, "");

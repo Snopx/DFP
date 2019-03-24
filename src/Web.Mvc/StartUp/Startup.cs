@@ -4,7 +4,9 @@ using Infrastructure.Data;
 using Infrastructure.ioC;
 using Infrastructure.Util;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -34,6 +36,7 @@ namespace Web.Mvc.StartUp
             //    options.MinimumSameSitePolicy = SameSiteMode.None;
             //});
             #endregion
+            AutomapperHelper.RegisterMappings();
 
             //自动验证防伪标签 (全局)  亦可用 ValidateAntiForgeryToken 在控制器或控制器下的方法使用。 如果不需要使用可以使用 IgnoreAntiforgeryToken 特性标注
             services.AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute())).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -54,13 +57,21 @@ namespace Web.Mvc.StartUp
             }
             else
             {
-                //app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler(builder => {
+                    builder.Run(async context => {
+                        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                        context.Response.ContentType = "application/json";
+                        var ex = context.Features.Get<IExceptionHandlerFeature>();
+                        if(ex != null)
+                        {
+                            //TODO 日志
+                        }
+                        await context.Response.WriteAsync(ex?.Error?.Message ?? "An Error Occurred");
+                    });
+                });
             }
-            //app.UseCookiePolicy();
             app.UseStaticFiles();
             app.UseAuthentication();
-            AutomapperHelper.RegisterMappings();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

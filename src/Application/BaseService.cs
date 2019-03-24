@@ -1,4 +1,4 @@
-﻿using Domain;
+﻿using Application.ServiceBaseInterface;
 using Domain.Interface;
 using System;
 using System.Collections.Generic;
@@ -97,19 +97,9 @@ namespace Application
             return await _repository.GetAsync(ID);
         }
 
-        public virtual async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return await _repository.FindAsync(predicate);
-        }
-
         public virtual IQueryable<TEntity> GetRange(Expression<Func<TEntity, bool>> predicate)
         {
             return _repository.Get(predicate);
-        }
-
-        public virtual async Task<IQueryable<TEntity>> GetRangeAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return await _repository.GetAsync(predicate);
         }
 
         public virtual bool Update(TEntity entity)
@@ -138,7 +128,7 @@ namespace Application
     }
 
 
-    public abstract class BaseService<TEntity, TRepository> : BaseService<TEntity, long, TRepository> where TEntity : class, IEntity
+    public abstract class BaseService<TEntity, TRepository> : BaseService<TEntity, int, TRepository> where TEntity : class, IEntity
         where TRepository : IRepository<TEntity>
     {
         public BaseService(TRepository repository, IUnitOfWork unitOfWork) : base(repository, unitOfWork)

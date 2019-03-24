@@ -15,21 +15,21 @@
     <link href="~/css/signIn.css" rel="stylesheet">
 </head>
 <body class="text-center">
-    <form class="form-signin" asp-action="LoginWithAccount">
+    <form class="form-signin" asp-action="SignIn">
         <h1 class="h3 mb-3 font-weight-normal" style="margin-left:-20px;">登录</h1>
         <label for="inputAccount" class="sr-only">Email address</label>
         <input id="inputAccount" type="text" name="Account" class="form-control" placeholder="Account" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
         <input id="inputPassword" type="password" name="Password" class="form-control" placeholder="Password" required>
+        <input type="hidden" name="ReturnUrl"  value="@ViewData["ReturnUrl"]">
         <button class="btn btn-primary btn-block" type="submit">Sign in</button>
         <a href="/User/Create" class="btn btn-link ">Sign Up</a>
         @if (Model)
         {
             <div class="alert alert-danger" role="alert">
-                密码错误，请重新输入
+                账号或密码错误，请重新输入
             </div>
         }
-        <input type="hidden" value="/Home/Index" name="returnUrl" />
         <p class="mt-5 mb-3 text-muted">&copy; @DateTime.Now.Year-DarrenFang's Blog</p>
     </form>
 </body>

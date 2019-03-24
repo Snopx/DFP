@@ -73,7 +73,7 @@ namespace Web.Host
 
                 o.AddSecurityDefinition(IssuerName, new ApiKeyScheme
                 {
-                    Description = "JWT授权(数据将在请求头中进行传输) 直接在下框中输入Bearer {token}（注意两者之间是一个空格）\"",
+                    Description = "Input 'Bearer {token}'",
                     Name = "Authorization",//jwt默认的参数名称
                     In = "header",//jwt默认存放Authorization信息的位置(请求头中)
                     Type = "apiKey"
@@ -107,6 +107,7 @@ namespace Web.Host
 
             });
             #endregion
+            AutomapperHelper.RegisterMappings();
             services.AddAutoMapper();
             services.AddDbContext<DFDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default"), builder => builder.MigrationsAssembly("Infrastructure")));
             return IocConfiguration.UseIoc(services);
@@ -134,7 +135,6 @@ namespace Web.Host
             #endregion
             app.UseStaticFiles();
             app.UseCors("LimitRequests");
-            AutomapperHelper.RegisterMappings();
             app.UseAuthentication();
             app.UseMvc();
         }

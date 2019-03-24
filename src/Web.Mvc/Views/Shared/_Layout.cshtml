@@ -3,46 +3,52 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - DarrenFang's Blog</title>
+    <title>@ViewData["Title"] - Darren's Blog</title>
     <link href="~/lib/bootstrap-4.2.1-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/css/website.css" rel="stylesheet" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/poper/popper.min.js"></script>
     <script src="~/lib/bootstrap-4.2.1-dist/js/bootstrap.min.js"></script>
-    <script src="~/js/siteInit.js"></script>
-
 </head>
 <body>
-    <nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark mb-4">
-        <span class="navbar-brand mb-0 h1">DF.Blog</span>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a asp-area="" asp-controller="Home" asp-action="About" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a asp-area="" asp-controller="Home" asp-action="Contact" class="nav-link">Contact</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav px-3">
-                <li class="nav-item text-nowrap">
-                    <a asp-area="" asp-controller="User" asp-action="Logout" class="btn btn-outline-light my-2 my-sm-0">Sign out</a>
-                </li>
-            </ul>
+    <div class="container">
+        <header class="blog-header py-3">
+            <div class="row flex-nowrap justify-content-between align-items-center">
+                <div class="col-12 text-lg-center">
+                    <a class="blog-header-logo text-dark text-decoration-none" href="/">Time In Solitary</a>
+                    <a class="btn btn-sm btn-outline-secondary float-lg-right" asp-action="Login" asp-controller="User">Sign up</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="nav-scroller py-1 mb-2">
+            <nav class="nav d-flex justify-content-center">
+                <a class="p-3 text-muted" href="#">Feelings</a>
+                <a class="p-3 text-muted" href="#">In</a>
+                <a class="p-3 text-muted" href="#">My</a>
+                <a class="p-3 text-muted" href="#">Life</a>
+            </nav>
         </div>
-    </nav>
-    <div>
+
         @RenderBody()
     </div>
-    <hr />
-    <footer>
-        <p>&copy; 2018 - Web.Mvc</p>
+    <footer class="blog-footer">
+        <p>Darren Fang's Blog-@DateTime.Now.Year</p>
+        <p>The beast in you,beast in me.That's me.</p>
     </footer>
+    <style>
+        .blog-footer {
+            padding: 1.5rem 0;
+            color: #999;
+            text-align: center;
+            background-color: #f9f9f9;
+            border-top: .05rem solid #e5e5e5;
+        }
+
+        .blog-header-logo {
+            font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+            font-size: 2.25rem;
+        }
+    </style>
 </body>
 </html>

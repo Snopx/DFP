@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "New Article";
+}
+@using Domain.Enum
+<form asp-action="PostArticle" asp-controller="Admin">
+    <div class="form-group">
+        <label for="Title">Title</label>
+        <input type="text" class="form-control" id="Title" placeholder="Enter Title" name="Title" required>
+    </div>
+    <div class="form-group">
+        <label for="Type">Type</label>
+        <select class="form-control" name="ArticleType">
+            @foreach (var item in Enum.GetValues(typeof(ArticleType)))
+            {
+                <option value="@((int)item)">@Enum.GetName(typeof(ArticleType),item)</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Summary">Summary</label>
+        <textarea class="form-control" id="Summary" rows="3" name="Summary" placeholder="Enter Summary" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="Content">Content</label>
+        <textarea class="form-control" id="Content" rows="15" name="Content" placeholder="Enter Summary" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="ImgUrl">ImgUrl</label>
+        <input type="text" class="form-control" id="ImgUrl" placeholder="ImgUrl" name="ImgUrl">
+    </div>
+    <div class="form-group text-center">
+        <input type="submit" class="btn btn-primary" value="Submit">
+    </div>
+</form>

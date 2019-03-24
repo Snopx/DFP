@@ -10,14 +10,10 @@ namespace Domain.Interface
         IQueryable<TEntity> Table { get; }
         TEntity Get(TPrimaryKey ID);
 
-
         Task<TEntity> GetAsync(TPrimaryKey ID);
 
-        Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate);
-
         IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> predicate);
-        Task<IQueryable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate);
     }
 
-    public interface IRepository<TEntity> : IRepository<TEntity, long> where TEntity : class, IEntity { }
+    public interface IRepository<TEntity> : IRepository<TEntity, int> where TEntity : class, IEntity { }
 }
