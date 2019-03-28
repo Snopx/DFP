@@ -2,6 +2,7 @@
 @{
     Layout = "_AdminLayout";
     ViewData["Title"] = "Article";
+    var input = ViewData["input"] as ArticleParameter;
 }
 @using Domain.Base
 @using Domain.Enum
@@ -10,26 +11,27 @@
 
 <link href="~/lib/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" />
 
-@Model.PageSize
-
 <div id="toolbar">
     <a href="/admin/NewArticle" class="text-decoration-none"><i class="fas fa-plus"></i>New Article</a>
-    <form asp-controller="Admin" asp-action="Article">
+    <form id="formArticle" asp-controller="Admin" asp-action="Article">
         <input type="hidden" name="PageIndex" value="@Model.PageIndex" />
         <input type="hidden" name="PageSize" value="@Model.PageSize" />
         <div class="float-right d-md-inline-block">
             <div class="input-group mb-4">
                 <label for="ArticleType" class="col-sm-2 col-form-label mr-2">ArticleType:</label>
-                <select id="ArticleType" name="ArticleType" class="mr-2 form-control">
-                    <option value="">All</option>
+                <select id="ArticleType" name="ArticleType" class="mr-2 form-control" onchange="typeChange()">
+                    <option data-selected="@(input.ArticleType.HasValue ?"":"selected")" value="">All</option>
+                    @{
+                        var type = input.ArticleType.HasValue ? input.ArticleType.ToString() : "";
+                    }
                     @foreach (var item in Enum.GetValues(typeof(ArticleType)))
                     {
-                        <option value="@((int)item)">@Enum.GetName(typeof(ArticleType), item)</option>
+                        <option data-selected="@(type.Equals(Enum.GetName(typeof(ArticleType), item))?"selected":"")" value="@((int)item)">@Enum.GetName(typeof(ArticleType), item)</option>
                     }
                 </select>
-                <input class="form-control" type="text" placeholder="Search Title" name="Title">
+                <input class="form-control" type="text" placeholder="Search Title" name="Title" value="@input.Title">
                 <div class="input-group-append">
-                    <input type="submit" class="btn border-dark" value="Search">
+                    <a href="javascript:reset()" class="btn border-dark">Search</a>
                 </div>
             </div>
         </div>
@@ -62,20 +64,34 @@
 <div class="mt-2 float-md-right">
     <nav>
         <ul class="pagination">
-            @if (Model.HasPrevious)
-            {
-                <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-            }
-            @*@if (Model.HasNext)
-            {
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            }*@
+            <li class="page-item"><a class="btn btn-outline-primary @(Model.HasPrevious?" ":" disabled")" href="javascript:PrevOrNext();">Prev</a></li>
+            <li class="page-item"><a class="btn btn-outline-primary @(Model.HasNext?" ":" disabled")" href="javascript:PrevOrNext(1);">Next</a></li>
         </ul>
     </nav>
 </div>
 <script src="~/lib/bootstrap-table/bootstrap-table.min.js"></script>
 <script>
     (function () {
-
+        $("#ArticleType option").each(function () {
+            if ($(this).attr("data-selected")) {
+                $(this).attr("selected","selected");
+            }
+        });
     })();
+    var PrevOrNext = function (num) {
+        var $page = $("form input[name='PageIndex']");
+        if (num)
+            $page.val(@(Model.PageIndex+1));
+        else
+            $page.val(@(Model.PageIndex-1));
+        $("#formArticle").submit();
+    };
+    var typeChange = function () {
+        $("input[name='PageIndex']").val(0);
+        $("#formArticle").submit();
+    }
+    var reset = function () {
+        $("input[name='PageIndex']").val(0);
+        $("#formArticle").submit();
+    }
 </script>

@@ -13,7 +13,7 @@
         <select class="form-control" name="ArticleType">
             @foreach (var item in Enum.GetValues(typeof(ArticleType)))
             {
-                <option value="@((int)item)">@Enum.GetName(typeof(ArticleType),item)</option>
+                <option value="@((int)item)">@Enum.GetName(typeof(ArticleType), item)</option>
             }
         </select>
     </div>
@@ -23,7 +23,7 @@
     </div>
     <div class="form-group">
         <label for="Content">Content</label>
-        <textarea class="form-control" id="Content" rows="15" name="Content" placeholder="Enter Summary" required></textarea>
+        <textarea class="form-control" id="Content" rows="15" name="Content" placeholder="Enter Content" required></textarea>
     </div>
     <div class="form-group">
         <label for="ImgUrl">ImgUrl</label>

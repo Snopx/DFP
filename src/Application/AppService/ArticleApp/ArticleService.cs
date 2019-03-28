@@ -22,18 +22,24 @@ namespace Application.ArticleApp
         public async Task<PaginatedList<ArticleOutputDto>> GetPageEntitys(ArticleParameter queryParameters)
         {
             var query = Table;
-            var count = await query.CountAsync();
 
             if (!string.IsNullOrWhiteSpace(queryParameters.Title))
                 query = query.Where(x => x.Title.Contains(queryParameters.Title, System.StringComparison.OrdinalIgnoreCase));
-            if (queryParameters.ArticleType != null)
+            if (queryParameters.ArticleType.HasValue)
                 query = query.Where(x => x.ArticleType == queryParameters.ArticleType);
 
-            var articles = await query.Skip((queryParameters.PageIndex * queryParameters.PageIndex)).ToListAsync();
+            var count = await query.CountAsync();
+            var articles = await query.Skip((queryParameters.PageIndex * queryParameters.PageSize)).Take(queryParameters.PageSize).ToListAsync();
 
             var data = _mapper.Map<List<ArticleOutputDto>>(articles);
 
             return new PaginatedList<ArticleOutputDto>(queryParameters.PageIndex, queryParameters.PageSize, count, data);
+        }
+
+        public async Task<List<ArticleOutputDto>> GetTop5()
+        {
+            var result = await Table.OrderByDescending(x=>x.CreateTime).Take(5).ToListAsync();
+            return _mapper.Map<List<ArticleOutputDto>>(result);
         }
     }
 }

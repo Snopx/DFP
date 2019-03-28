@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Domain.QueryParameterFolder
 {
-    public class ArticleParameter : QueryParameters
+    public class ArticleParameter : PaginationQueryParameters
     {
         public string Title { get; set; }
 

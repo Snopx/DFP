@@ -13,9 +13,6 @@ namespace Web.Mvc.StartUp
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-            .UseKestrel()
-            .UseIISIntegration()
-            .UseContentRoot(Directory.GetCurrentDirectory())
             .UseStartup<Startup>();
     }
 }

@@ -15,6 +15,8 @@ namespace Application.ServiceBaseInterface
     {
         IQueryable<TEntity> Table { get; }
 
+        Task<List<TEntity>> GetAll();
+
         Task<bool> AddAsync(TEntity entity);
 
         Task<bool> AddRangeAsync(IEnumerable<TEntity> entities);

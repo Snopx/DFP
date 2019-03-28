@@ -1,23 +1,21 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Application.UserApp;
-using AutoMapper;
-using Domain.Model;
-using Microsoft.AspNetCore.Authorization;
+﻿using System.Threading.Tasks;
+using Application.ArticleApp;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Mvc.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController()
+        private readonly IArticleService _articleService;
+        public HomeController(IArticleService articleService)
         {
+            _articleService = articleService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var model = await _articleService.GetTop5();
+            return View(model);
         }
 
 

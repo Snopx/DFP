@@ -21,6 +21,7 @@ namespace Web.Host
         /// <param name="args"></param>
         public static void Main(string[] args)
         {
+            CurrentDirectoryHelpers.SetCurrentDirectory();
             CreateWebHostBuilder(args).Build().Run();
         }
         /// <summary>

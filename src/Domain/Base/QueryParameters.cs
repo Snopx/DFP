@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Domain.Base
 {
-    public abstract class QueryParameters : INotifyPropertyChanged
+    public abstract class PaginationQueryParameters : INotifyPropertyChanged
     {
         private const int DefaultPageSize = 10;
         private const int DefaultMaxPageSize = 100;

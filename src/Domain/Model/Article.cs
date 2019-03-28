@@ -29,7 +29,7 @@ namespace Domain.Model
         public DateTime UpdateTime { get; set; }
 
         [MaxLength(30)]
-        public string Auther { get; set; }
+        public string Author { get; set; }
         public string Remark { get; set; }
 
     }

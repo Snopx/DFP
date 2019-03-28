@@ -1,5 +1,6 @@
 ﻿using Application.ServiceBaseInterface;
 using Domain.Interface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,6 +91,11 @@ namespace Application
         public virtual TEntity Get(Expression<Func<TEntity, bool>> predicate)
         {
             return _repository.Table.Where(predicate).FirstOrDefault();
+        }
+
+        public virtual async Task<List<TEntity>> GetAll()
+        {
+            return await _repository.Table.ToListAsync();
         }
 
         public virtual async Task<TEntity> GetAsync(TPrimaryKey ID)

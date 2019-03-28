@@ -13,7 +13,7 @@ namespace Application.UserApp
         {
         }
 
-        public Task<PaginatedList<UserDto>> GetPageEntitys(QueryParameters queryParameters)
+        public Task<PaginatedList<UserDto>> GetPageEntitys(PaginationQueryParameters queryParameters)
         {
             throw new System.NotImplementedException();
         }

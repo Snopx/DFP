@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.AppService.ArticleApp.Dto;
 using Application.ArticleApp;
@@ -20,7 +21,7 @@ namespace Web.Mvc.Controllers
     {
         private readonly IArticleService _articleService;
         private readonly IMapper _mapper;
-        public AdminController(IArticleService articleService, IMapper mapper, IRepository<Article> repository)
+        public AdminController(IArticleService articleService, IMapper mapper)
         {
             _articleService = articleService;
             _mapper = mapper;
@@ -33,7 +34,9 @@ namespace Web.Mvc.Controllers
 
         public async Task<IActionResult> Article(ArticleParameter input)
         {
+            input.PageSize = 2;
             var result = await _articleService.GetPageEntitys(input);
+            ViewData["input"] = input;
             return View(result);
         }
 
@@ -46,6 +49,8 @@ namespace Web.Mvc.Controllers
         public async Task<IActionResult> PostArticle(ArticleInputDto input)
         {
             var article = _mapper.Map<Article>(input);
+            article.CreateTime = DateTime.Now;
+            article.Author = User.Claims.Where(x => x.Type.Equals("FullName", StringComparison.OrdinalIgnoreCase)).Select(x => x.Value).FirstOrDefault();
             var isSucceed = await _articleService.AddAsync(article);
             if (!isSucceed)
             {

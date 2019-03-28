@@ -4,6 +4,25 @@
         <name>Web.Host</name>
     </assembly>
     <members>
+        <member name="T:Web.Host.Controllers.ArticleController">
+            <summary>
+            文章
+            </summary>
+        </member>
+        <member name="M:Web.Host.Controllers.ArticleController.#ctor(Application.ArticleApp.IArticleService,AutoMapper.IMapper)">
+            <summary>
+            constructor of Ariticle
+            </summary>
+            <param name="articleService"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="M:Web.Host.Controllers.ArticleController.Get(Domain.QueryParameterFolder.ArticleParameter)">
+            <summary>
+            get page of Articles
+            </summary>
+            <param name="input">ArticleParameter</param>
+            <returns></returns>
+        </member>
         <member name="M:Web.Host.Controllers.ValuesController.Get">
             <summary>
             teadsf s 
