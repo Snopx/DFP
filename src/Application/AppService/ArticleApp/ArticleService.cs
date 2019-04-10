@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using Domain.Extension;
+using Domain.Enum;
 
 namespace Application.ArticleApp
 {
@@ -36,9 +37,9 @@ namespace Application.ArticleApp
             return new PaginatedList<ArticleOutputDto>(queryParameters.PageIndex, queryParameters.PageSize, count, data);
         }
 
-        public async Task<List<ArticleOutputDto>> GetTop5()
+        public async Task<List<ArticleOutputDto>> GetTop5(ArticleType articleType)
         {
-            var result = await Table.OrderByDescending(x => x.CreateTime).Take(5).ToListAsync();
+            var result = await Table.Where(x => x.ArticleType == articleType).OrderByDescending(x => x.CreateTime).Take(5).ToListAsync();
             return _mapper.Map<List<ArticleOutputDto>>(result);
         }
     }

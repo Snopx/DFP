@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Application.AppService.ArticleApp.Dto;
 using Application.ArticleApp;
+using Domain.Enum;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Mvc.Controllers
@@ -14,7 +16,9 @@ namespace Web.Mvc.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var model = await _articleService.GetTop5();
+            ArticleOutputWithTypeDto model = new ArticleOutputWithTypeDto();
+            model.Life = await _articleService.GetTop5(ArticleType.Life);
+            model.Yatter = await _articleService.GetTop5(ArticleType.Yatter);
             return View(model);
         }
 
