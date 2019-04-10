@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using Application.AutoMapper;
+﻿using System.ComponentModel.DataAnnotations;
+using Application.ServiceBaseInterface;
 using Domain.Enum;
 
 namespace Application.UserApp

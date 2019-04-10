@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Application.AutoMapper;
+using Application.ServiceBaseInterface;
 using Domain.Enum;
-using Domain.Model;
 
 namespace Application.ArticleApp.Dto
 {

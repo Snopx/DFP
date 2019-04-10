@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Application.AutoMapper
+namespace Application.ServiceBaseInterface
 {
     public interface IEntityDto
     {

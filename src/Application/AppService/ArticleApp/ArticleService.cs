@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using Domain.Extension;
 
 namespace Application.ArticleApp
 {
@@ -23,13 +24,12 @@ namespace Application.ArticleApp
         {
             var query = Table;
 
-            if (!string.IsNullOrWhiteSpace(queryParameters.Title))
-                query = query.Where(x => x.Title.Contains(queryParameters.Title, System.StringComparison.OrdinalIgnoreCase));
-            if (queryParameters.ArticleType.HasValue)
-                query = query.Where(x => x.ArticleType == queryParameters.ArticleType);
+            query.WhereIf(!string.IsNullOrWhiteSpace(queryParameters.Title), x => x.Title.Contains(queryParameters.Title, System.StringComparison.OrdinalIgnoreCase));
+
+            query.WhereIf(queryParameters.ArticleType.HasValue, x => x.ArticleType == queryParameters.ArticleType);
 
             var count = await query.CountAsync();
-            var articles = await query.Skip((queryParameters.PageIndex * queryParameters.PageSize)).Take(queryParameters.PageSize).ToListAsync();
+            var articles = await query.PageBy(queryParameters).ToListAsync();
 
             var data = _mapper.Map<List<ArticleOutputDto>>(articles);
 
