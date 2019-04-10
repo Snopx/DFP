@@ -12,7 +12,7 @@ namespace Infrastructure.UnitOfWorkFolder
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly IDbContext _dbContext;
+        private IDbContext _dbContext;
         private IDbContextTransaction _dbTransaction;
 
         public UnitOfWork(IDbContext dbContext)

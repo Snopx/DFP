@@ -6,7 +6,6 @@ using Application.UserApp;
 using Domain.Model;
 using Infrastructure.Util;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -30,13 +29,16 @@ namespace Web.Mvc.Controllers
 
         public async Task<IActionResult> SignIn(string Account, string Password, string ReturnUrl)
         {
-            var user = _userService.Get(x => x.Account.Equals(Account,StringComparison.OrdinalIgnoreCase));
+            var user = _userService.Get(x => x.Account.Equals(Account, StringComparison.OrdinalIgnoreCase));
             if (user == null || user.Password != SecurityOfCrypt.Encode(Password))
                 return RedirectToAction(nameof(Login), new { id = false, ReturnUrl });
             user.Roles = new List<Role> { new Role { ID = 1, RoleName = "Administrator" } };
             await HttpContext.SignInAsync(DefaultAuthorizeAttribute.DefaultAuthenticationScheme,
                         new ClaimsPrincipal(CookieBaseaAuth.GetClaimsPrincipal(user)), CookieBaseaAuth.AuthenticationProperties);
-            return Redirect("/Admin/Dashboard");
+            if (string.IsNullOrWhiteSpace(ReturnUrl))
+                return RedirectToAction("dashboard", "admin");
+            else
+                return LocalRedirect(ReturnUrl);
         }
 
         public async Task<IActionResult> Logout()

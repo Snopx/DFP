@@ -18,8 +18,7 @@ namespace Application.AutoMapper
             CreateMap<ArticleInputDto, Article>()
                 .ForMember(x => x.CreateTime, m => m.Ignore())
                 .ForMember(x => x.UpdateTime, m => m.Ignore())
-                .ForMember(x => x.Author, m => m.Ignore())
-                .ForMember(x => x.ID, m => m.Ignore());
+                .ForMember(x => x.Author, m => m.Ignore());
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();
 

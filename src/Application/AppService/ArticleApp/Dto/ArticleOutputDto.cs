@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Application.AutoMapper;
 using Application.ServiceBaseInterface;
 using Domain.Enum;
+using Domain.Model;
 
 namespace Application.ArticleApp.Dto
 {
@@ -8,6 +12,8 @@ namespace Application.ArticleApp.Dto
     {
         public int ID { get; set; }
         public string Title { get; set; }
+
+        public string Summary { get; set; }
 
         public string Content { get; set; }
 
@@ -17,5 +23,7 @@ namespace Application.ArticleApp.Dto
         public DateTime CreateTime { get; set; }
 
         public string Author { get; set; }
+
+        public string ImgUrl { get; set; }
     }
 }

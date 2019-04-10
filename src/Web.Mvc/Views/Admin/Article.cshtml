@@ -8,11 +8,12 @@
 @using Domain.Enum
 @using Application.ArticleApp.Dto
 @model PaginatedList<ArticleOutputDto>
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 
 <link href="~/lib/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" />
 
 <div id="toolbar">
-    <a href="/admin/NewArticle" class="text-decoration-none"><i class="fas fa-plus"></i>New Article</a>
+    <a href="/admin/NewArticle" class="text-decoration-none"><i class="fas fa-plus"></i> New Article</a>
     <form id="formArticle" asp-controller="Admin" asp-action="Article">
         <input type="hidden" name="PageIndex" value="@Model.PageIndex" />
         <input type="hidden" name="PageSize" value="@Model.PageSize" />
@@ -20,13 +21,13 @@
             <div class="input-group mb-4">
                 <label for="ArticleType" class="col-sm-2 col-form-label mr-2">ArticleType:</label>
                 <select id="ArticleType" name="ArticleType" class="mr-2 form-control" onchange="typeChange()">
-                    <option data-selected="@(input.ArticleType.HasValue ?"":"selected")" value="">All</option>
+                    <option data-selected="@(input.ArticleType.HasValue ? " " : " selected")" value="">All</option>
                     @{
                         var type = input.ArticleType.HasValue ? input.ArticleType.ToString() : "";
                     }
                     @foreach (var item in Enum.GetValues(typeof(ArticleType)))
                     {
-                        <option data-selected="@(type.Equals(Enum.GetName(typeof(ArticleType), item))?"selected":"")" value="@((int)item)">@Enum.GetName(typeof(ArticleType), item)</option>
+                        <option data-selected="@(type.Equals(Enum.GetName(typeof(ArticleType), item)) ? " selected" : "")" value="@((int)item)">@Enum.GetName(typeof(ArticleType), item)</option>
                     }
                 </select>
                 <input class="form-control" type="text" placeholder="Search Title" name="Title" value="@input.Title">
@@ -37,7 +38,7 @@
         </div>
     </form>
 </div>
-<table id="articleTable" data-classes="table table-borderless table-hover" data-toggle="table" data-side-pagination="server" data-page-size="20" data-height="70%">
+<table id="articleTable" data-classes="table table-borderless table-sm table-hover" data-toggle="table" data-side-pagination="server" data-page-size="20" data-height="70%">
     <thead>
         <tr>
             <th data-align="center">Title</th>
@@ -54,8 +55,8 @@
                 <td>@item.ArticleType</td>
                 <td>@item.CreateTime</td>
                 <td>
-                    <a href="#" class="btn btn-sm btn-outline-secondary">Modify</a>
-                    <a href="#" class="btn btn-sm btn-outline-danger">Remove</a>
+                    <a href="/Admin/ModifyArticle/@item.ID" class="btn btn-sm btn-outline-secondary">Modify</a>
+                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-danger removeBtn" data-id="@item.ID" data-title="@item.Title">Remove</a>
                 </td>
             </tr>
         }
@@ -64,34 +65,88 @@
 <div class="mt-2 float-md-right">
     <nav>
         <ul class="pagination">
-            <li class="page-item"><a class="btn btn-outline-primary @(Model.HasPrevious?" ":" disabled")" href="javascript:PrevOrNext();">Prev</a></li>
-            <li class="page-item"><a class="btn btn-outline-primary @(Model.HasNext?" ":" disabled")" href="javascript:PrevOrNext(1);">Next</a></li>
+            <li class="page-item"><a class="btn btn-outline-primary @(Model.HasPrevious ? " " : " disabled")" href="javascript:PrevOrNext();">Prev</a></li>
+            <li class="page-item"><a class="btn btn-outline-primary @(Model.HasNext ? " " : " disabled")" href="javascript:PrevOrNext(1);">Next</a></li>
         </ul>
     </nav>
 </div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-danger" id="myModalLabel">
+                    Delete
+                </h4>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                    Cancle
+                </button>
+                <input id="deleteID" type="hidden" />
+                <a data-dismiss="modal" class="btn btn-outline-danger" onclick="confirmDelete()">
+                    Yes
+                </a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <script src="~/lib/bootstrap-table/bootstrap-table.min.js"></script>
-<script>
-    (function () {
-        $("#ArticleType option").each(function () {
-            if ($(this).attr("data-selected")) {
-                $(this).attr("selected","selected");
-            }
-        });
-    })();
+<script type="text/javascript">
+
     var PrevOrNext = function (num) {
         var $page = $("form input[name='PageIndex']");
         if (num)
-            $page.val(@(Model.PageIndex+1));
+            $page.val(@(Model.PageIndex + 1));
         else
-            $page.val(@(Model.PageIndex-1));
+            $page.val(@(Model.PageIndex - 1));
         $("#formArticle").submit();
     };
     var typeChange = function () {
         $("input[name='PageIndex']").val(0);
         $("#formArticle").submit();
-    }
+    };
     var reset = function () {
         $("input[name='PageIndex']").val(0);
         $("#formArticle").submit();
-    }
+    };
+    var confirmDelete = function () {
+        var id = $("#deleteID").val();
+        var token = '@(Xsrf.GetAndStoreTokens(Context).RequestToken)';
+        if (id) {
+            $.ajax({
+                url: 'DeleteArticle',
+                data: { id: id, __RequestVerificationToken: token },
+                type: 'post',
+                success: function (data) {
+                    if (data.success === true) {
+                         alert('Successfully Delete');
+                    } else {
+                        alert('Failed To Delete');
+                    }
+                    location.reload();
+                }
+
+            });
+        }
+    };
+    (function () {
+        $(function () {
+            $(".removeBtn").on("click", function () {
+                var id = $(this).attr("data-id");
+                var title = $(this).attr("data-title");
+                $("div.modal-body").html("Are you sure to Delete <span class='text-danger'>" + title + "</span> ?");
+                $("#deleteID").val(id);
+                $('#myModal').modal('show');
+
+            });
+        });
+        $("#ArticleType option").each(function () {
+            if ($(this).attr("data-selected")) {
+                $(this).attr("selected", "selected");
+            }
+        });
+    })();
 </script>

@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.AppService.ArticleApp.Dto;
 using Application.ArticleApp;
+using Application.ArticleApp.Dto;
 using AutoMapper;
 using Domain.Interface;
 using Domain.Model;
@@ -34,7 +35,6 @@ namespace Web.Mvc.Controllers
 
         public async Task<IActionResult> Article(ArticleParameter input)
         {
-            input.PageSize = 2;
             var result = await _articleService.GetPageEntitys(input);
             ViewData["input"] = input;
             return View(result);
@@ -57,6 +57,43 @@ namespace Web.Mvc.Controllers
                 return BadRequest("Failed to add new article!!!");
             }
             return RedirectToAction(nameof(Article));
+        }
+
+        public async Task<IActionResult> ModifyArticle(int id)
+        {
+            var result = await _articleService.GetAsync(id);
+            if (result != null)
+            {
+                var dto = _mapper.Map<ArticleOutputDto>(result);
+                return View(dto);
+            }
+            else
+            {
+                return NotFound("this article has been deleted,refresh please");
+            }
+        }
+
+        public async Task<IActionResult> UpdateArticle(ArticleInputDto input)
+        {
+            var article = await _articleService.GetAsync(input.ID);
+            if (article == null)
+                return BadRequest("This Article May Have Been Deleted");
+            article = _mapper.Map(input, article);
+
+            article.UpdateTime = DateTime.Now;
+            article.Author = User.Claims.Where(x => x.Type.Equals("FullName", StringComparison.OrdinalIgnoreCase)).Select(x => x.Value).FirstOrDefault();
+            var result = await _articleService.UpdateAsync(article);
+            if (result)
+                return RedirectToAction(nameof(Article));
+            else
+                return BadRequest("Failed to Update;");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteArticle(int id)
+        {
+            var result = await _articleService.DeleteByIdAsync(id);
+            return Json(new { success = result, id = id });
         }
     }
 }
