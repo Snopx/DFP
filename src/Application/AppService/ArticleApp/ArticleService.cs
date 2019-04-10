@@ -24,9 +24,9 @@ namespace Application.ArticleApp
         {
             var query = Table;
 
-            query.WhereIf(!string.IsNullOrWhiteSpace(queryParameters.Title), x => x.Title.Contains(queryParameters.Title, System.StringComparison.OrdinalIgnoreCase));
+            query = query.WhereIf(!string.IsNullOrWhiteSpace(queryParameters.Title), x => x.Title.Contains(queryParameters.Title, System.StringComparison.OrdinalIgnoreCase));
 
-            query.WhereIf(queryParameters.ArticleType.HasValue, x => x.ArticleType == queryParameters.ArticleType);
+            query = query.WhereIf(queryParameters.ArticleType.HasValue, x => x.ArticleType == queryParameters.ArticleType);
 
             var count = await query.CountAsync();
             var articles = await query.PageBy(queryParameters).ToListAsync();
@@ -38,7 +38,7 @@ namespace Application.ArticleApp
 
         public async Task<List<ArticleOutputDto>> GetTop5()
         {
-            var result = await Table.OrderByDescending(x=>x.CreateTime).Take(5).ToListAsync();
+            var result = await Table.OrderByDescending(x => x.CreateTime).Take(5).ToListAsync();
             return _mapper.Map<List<ArticleOutputDto>>(result);
         }
     }
