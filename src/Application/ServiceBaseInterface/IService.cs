@@ -46,6 +46,7 @@ namespace Application.ServiceBaseInterface
         bool UpdateRange(IEnumerable<TEntity> entities);
 
         Task<TEntity> GetAsync(TPrimaryKey ID);
+        Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate);
 
         TEntity Get(TPrimaryKey ID);
 

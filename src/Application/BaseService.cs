@@ -103,6 +103,11 @@ namespace Application
             return await _repository.GetAsync(ID);
         }
 
+        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await _repository.Table.Where(predicate).FirstOrDefaultAsync();
+        }
+
         public virtual IQueryable<TEntity> GetRange(Expression<Func<TEntity, bool>> predicate)
         {
             return _repository.Get(predicate);

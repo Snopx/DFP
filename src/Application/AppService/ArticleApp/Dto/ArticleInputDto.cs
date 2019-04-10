@@ -8,6 +8,7 @@ namespace Application.AppService.ArticleApp.Dto
 {
     public class ArticleInputDto
     {
+        public int ID { get; set; }
         [MaxLength(100)]
         public string Title { get; set; }
 

@@ -5,9 +5,9 @@
 @using Application.ArticleApp.Dto
 @model List<ArticleOutputDto>
 
-<div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
+<div class="jumbotron p-4 p-md-5 text-white rounded bg-secondary">
     <div class="col-md-8 px-0">
-        <h1 class="display-4 font-italic">Just Recording My Feelings</h1>
+        <h1 class="font-italic">Fading is true while flowering is past</h1>
         <p class="lead my-3">We laughed and kept saying"see u soon",but inside we both knew we'd never see each other again.</p>
         <p class="lead mb-0">Life fucking goes on.</p>
     </div>
@@ -17,26 +17,26 @@
     <div class="col-md-6">
         <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div class="col p-4 d-flex flex-column position-static">
-                <strong class="d-inline-block mb-2 text-primary">World</strong>
-                <h3 class="mb-0">Featured post</h3>
-                <div class="mb-1 text-muted">Nov 12</div>
-                <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                <strong class="d-inline-block mb-3 text-primary">Withered</strong>
+                <h4 class="mb-3">Push yourself.</h4>
+                <div class="mb-1 text-muted"> </div>
+                <p class="card-text mb-auto">Carpe diem. Seize the day.</p>
             </div>
             <div class="col-auto d-none d-lg-block">
-                <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                <img src="~/images/falling.jpg"/>
             </div>
         </div>
     </div>
     <div class="col-md-6">
         <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div class="col p-4 d-flex flex-column position-static">
-                <strong class="d-inline-block mb-2 text-info">Design</strong>
-                <h3 class="mb-0">Post title</h3>
-                <div class="mb-1 text-muted">Nov 11</div>
-                <p class="mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                <strong class="d-inline-block mb-2 text-info">Crisp</strong>
+                <h4 class="mb-3"> Don’t settle.</h4>
+                <div class="mb-1 text-muted"> </div>
+                <p class="mb-auto">Busy living || Busy dying.</p>
             </div>
             <div class="col-auto d-none d-lg-block">
-                <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                <img src="~/images/sea.jpg" />
             </div>
         </div>
     </div>
@@ -52,15 +52,8 @@
                 <div class="blog-post">
                     <h2 class="blog-post-title">@item.Title</h2>
                     <p class="blog-post-meta">@item.CreateTime.ToString("MMMM dd , yyyy", new CultureInfo("en-US")) by @item.Author</p>
-
-                    <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-                    <ul>
-                        <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
-                        <li>Donec id elit non mi porta gravida at eget metus.</li>
-                        <li>Nulla vitae elit libero, a pharetra augue.</li>
-                    </ul>
-                    <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-                    <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
+                    <p class="font-weight-lighter">@item.Summary</p>
+                    <p>@item.Content</p>
                 </div>
             }
         </div><!-- /.blog-main -->

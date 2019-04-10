@@ -12,7 +12,7 @@ namespace Infrastructure.UnitOfWorkFolder
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly IDbContext _dbContext;
+        private IDbContext _dbContext;
         private IDbContextTransaction _dbTransaction;
 
         public UnitOfWork(IDbContext dbContext)
@@ -119,6 +119,7 @@ namespace Infrastructure.UnitOfWorkFolder
 
         public bool RegisterModifiedRange<TEntity>(IEnumerable<TEntity> entitys) where TEntity : class, IEntity
         {
+            _dbContext.Set<TEntity>().AttachRange(entitys);
             _dbContext.Set<TEntity>().UpdateRange(entitys);
             return Save();
         }

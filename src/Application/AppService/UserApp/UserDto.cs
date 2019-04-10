@@ -1,4 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+using Application.AutoMapper;
 using Application.ServiceBaseInterface;
 using Domain.Enum;
 

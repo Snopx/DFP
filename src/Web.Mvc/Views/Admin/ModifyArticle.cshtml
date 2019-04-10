@@ -1,0 +1,52 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "New Article";
+}
+@using Domain.Enum
+@using Application.ArticleApp.Dto
+@model ArticleOutputDto
+
+<div>
+    <a href="/admin/article" class="btn btn-light">返回</a>
+</div>
+<form asp-action="UpdateArticle" asp-controller="Admin">
+    <input type="hidden" name="ID" value="@Model.ID"/>
+    <div class="form-group">
+        <label for="Title">Title</label>
+        <input type="text" class="form-control" id="Title" placeholder="Enter Title" name="Title" value="@Model.Title" required>
+    </div>
+    <div class="form-group">
+        <label for="Type">Type</label>
+        <select id="ArticleType" class="form-control" name="ArticleType">
+            @foreach (var item in Enum.GetValues(typeof(ArticleType)))
+            {
+                <option data-selected="@((int)Model.ArticleType==(int)item?"selected":"")" value="@((int)item)">@Enum.GetName(typeof(ArticleType), item)</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Summary">Summary</label>
+        <textarea class="form-control" id="Summary" rows="3" name="Summary" placeholder="Enter Summary" required>@Model.Summary</textarea>
+    </div>
+    <div class="form-group">
+        <label for="Content">Content</label>
+        <textarea class="form-control" id="Content" rows="15" name="Content" placeholder="Enter Content" required>@Model.Content</textarea>
+    </div>
+    <div class="form-group">
+        <label for="ImgUrl">ImgUrl</label>
+        <input type="text" class="form-control" id="ImgUrl" placeholder="ImgUrl" name="ImgUrl" value="@Model.ImgUrl">
+    </div>
+    <div class="form-group text-center">
+        <input type="submit" class="btn btn-primary" value="Update">
+    </div>
+</form>
+
+<script>
+    (function () {
+        $("#ArticleType option").each(function () {
+            if ($(this).attr("data-selected")) {
+                $(this).attr("selected","selected");
+            }
+        });
+    })();
+</script>
