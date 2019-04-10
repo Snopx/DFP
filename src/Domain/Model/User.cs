@@ -8,7 +8,8 @@ using System.Security.Principal;
 
 namespace Domain.Model
 {
-    public class User : BaseEntity, IIdentity
+    [Table("User")]
+    public class UserModel : BaseEntity, IIdentity
     {
         [MinLength(5),MaxLength(10)]
         public string Account { get; set; }

@@ -6,11 +6,10 @@ using Application.AutoMapper;
 using Application.ServiceBaseInterface;
 using Domain.Enum;
 
-namespace Application.UserApp
+namespace Application.AppService.UserApp.dto
 {
     public class UserDto : IEntityDto
     {
-        [Required]
         public int ID { get; set; }
 
         [MinLength(5), MaxLength(10)]

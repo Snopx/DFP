@@ -1,1 +1,31 @@
-﻿123
+﻿@{
+    Layout = "";
+}
+@using Domain.Enum
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="DFBlog Login Page">
+    <meta name="author" content="DF">
+    <link rel="icon" href="~/favicon.ico">
+    <title>Login</title>
+    <link href="~/lib/bootstrap-4.2.1-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/signIn.css" rel="stylesheet">
+</head>
+<body class="text-center">
+    <form class="form-signin" asp-action="RegisterAccount">
+        <h1 class="h3 mb-3 font-weight-normal" style="margin-left:-20px;">Register</h1>
+        <input type="text" name="Account" class="form-control" placeholder="Account" required autofocus>
+        <input type="text" name="Name" class="form-control" placeholder="Name" required>
+        <input type="password" name="Password" class="form-control" placeholder="Password" required>
+        <label class="col-form-label-sm">@Gender.Male</label>
+        <input class="mr-2" name="Gender" type="radio" value="@Gender.Male" checked />
+        <label class="col-form-label-sm">@Gender.Female</label>
+        <input name="Gender" type="radio" value="@Gender.Female" />
+        <button class="btn btn-primary btn-block" type="submit">Register</button>
+        <p class="mt-5 mb-3 text-muted">&copy; @DateTime.Now.Year-DarrenFang's Blog</p>
+    </form>
+</body>
+</html>

@@ -40,7 +40,7 @@ namespace Web.Mvc.StartUp
 
             //自动验证防伪标签 (全局)  亦可用 ValidateAntiForgeryToken 在控制器或控制器下的方法使用。 如果不需要使用可以使用 IgnoreAntiforgeryToken 特性标注
             services.AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute())).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            AuthConfigurer.ConfigureCookieBase(services, Configuration);
+            services.ConfigureCookieBase();
             services.AddAutoMapper();
 
             services.AddDbContext<DFDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
@@ -76,6 +76,7 @@ namespace Web.Mvc.StartUp
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
             });
         }
     }

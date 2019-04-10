@@ -16,14 +16,12 @@
 </head>
 <body class="text-center">
     <form class="form-signin" asp-action="SignIn">
-        <h1 class="h3 mb-3 font-weight-normal" style="margin-left:-20px;">登录</h1>
-        <label for="inputAccount" class="sr-only">Email address</label>
+        <h1 class="h3 mb-3 font-weight-normal" style="margin-left:-20px;">Sign In</h1>
         <input id="inputAccount" type="text" name="Account" class="form-control" placeholder="Account" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
         <input id="inputPassword" type="password" name="Password" class="form-control" placeholder="Password" required>
         <input type="hidden" name="ReturnUrl"  value="@ViewData["ReturnUrl"]">
         <button class="btn btn-primary btn-block" type="submit">Sign in</button>
-        <a href="/User/Create" class="btn btn-link ">Sign Up</a>
+        <a href="/User/Register" class="btn btn-link ">Sign Up</a>
         @if (Model)
         {
             <div class="alert alert-danger" role="alert">

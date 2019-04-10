@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using Application.AppService.ArticleApp.Dto;
 using Application.ArticleApp;
 using Application.ArticleApp.Dto;
+using Application.UserApp;
 using AutoMapper;
+using Domain.Base;
 using Domain.Interface;
 using Domain.Model;
 using Domain.QueryParameterFolder;
@@ -21,11 +23,13 @@ namespace Web.Mvc.Controllers
     public class AdminController : Controller
     {
         private readonly IArticleService _articleService;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
-        public AdminController(IArticleService articleService, IMapper mapper)
+        public AdminController(IArticleService articleService, IMapper mapper, IUserService userService)
         {
             _articleService = articleService;
             _mapper = mapper;
+            _userService = userService;
         }
         public IActionResult Dashboard()
         {
@@ -90,10 +94,19 @@ namespace Web.Mvc.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> DeleteArticle(int id)
+        public async Task<IActionResult> DeleteArticle(int id)
         {
             var result = await _articleService.DeleteByIdAsync(id);
             return Json(new { success = result, id = id });
+        }
+
+
+
+        public async Task<IActionResult> UserAdmin(UserParameter input)
+        {
+            var users = await _userService.GetPageEntitys(input);
+            ViewData["input"] = input;
+            return View(users);
         }
     }
 }

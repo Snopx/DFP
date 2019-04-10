@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Application.AppService.ArticleApp.Dto;
-using Application.ArticleApp;
+﻿using Application.AppService.ArticleApp.Dto;
+using Application.AppService.UserApp.dto;
 using Application.ArticleApp.Dto;
-using Application.UserApp;
 using AutoMapper;
 using Domain.Model;
 
@@ -19,9 +15,9 @@ namespace Application.AutoMapper
                 .ForMember(x => x.CreateTime, m => m.Ignore())
                 .ForMember(x => x.UpdateTime, m => m.Ignore())
                 .ForMember(x => x.Author, m => m.Ignore());
-            CreateMap<User, UserDto>();
-            CreateMap<UserDto, User>();
-
+            CreateMap<UserModel, UserDto>();
+            CreateMap<UserDto, UserModel>();
+            CreateMap<UserRegisterDto, UserModel>();
         }
     }
 }

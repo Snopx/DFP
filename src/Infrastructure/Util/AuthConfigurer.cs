@@ -9,10 +9,10 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Util
 {
-    public class AuthConfigurer
+    public static class AuthConfigurer
     {
 
-        public static void Configure(IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {
             if (bool.Parse(configuration["Authentication:JwtBearer:IsEnabled"]))
             {
@@ -46,7 +46,7 @@ namespace Infrastructure.Util
             }
         }
 
-        public static void ConfigureCookieBase(IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureCookieBase(this IServiceCollection services)
         {
             services.AddAuthentication(DefaultAuthorizeAttribute.DefaultAuthenticationScheme)
                 .AddCookie(DefaultAuthorizeAttribute.DefaultAuthenticationScheme, option =>

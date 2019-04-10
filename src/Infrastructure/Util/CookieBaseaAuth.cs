@@ -12,7 +12,7 @@ namespace Infrastructure.Util
 {
     public class CookieBaseaAuth
     {
-        public static ClaimsPrincipal GetClaimsPrincipal(User user)
+        public static ClaimsPrincipal GetClaimsPrincipal(UserModel user)
         {
             var claims = new List<Claim>
                 {

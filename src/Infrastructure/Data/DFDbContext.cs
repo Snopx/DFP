@@ -15,14 +15,14 @@ namespace Infrastructure.Data
         {
         }
 
-        public DbSet<User> User { get; set; }
+        public DbSet<UserModel> User { get; set; }
         public DbSet<Role> Role { get; set; }
         public DbSet<Article> Article { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasIndex(b => b.Account).IsUnique();
-            modelBuilder.Entity<User>().HasData(new User
+            modelBuilder.Entity<UserModel>().HasIndex(b => b.Account).IsUnique();
+            modelBuilder.Entity<UserModel>().HasData(new UserModel
             {
                 ID = 1,
                 Account = "admin",

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Application.AppService.UserApp.dto;
 using Application.UserApp;
+using AutoMapper;
 using Domain.Model;
 using Infrastructure.Util;
 using Microsoft.AspNetCore.Authentication;
@@ -15,10 +17,12 @@ namespace Web.Mvc.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IUserService _userService;
-        public UserController(IConfiguration configuration, IUserService userService)
+        private readonly IMapper _mapper;
+        public UserController(IConfiguration configuration, IUserService userService, IMapper mapper)
         {
             _configuration = configuration;
             _userService = userService;
+            _mapper = mapper;
         }
 
         public IActionResult Login(bool id = true, string ReturnUrl = "/")
@@ -52,6 +56,24 @@ namespace Web.Mvc.Controllers
         {
             return View();
         }
+
+
+        public async Task<IActionResult> RegisterAccount(UserRegisterDto input)
+        {
+            try
+            {
+                input.Password = SecurityOfCrypt.Encode(input.Password);
+                var user = _mapper.Map<UserModel>(input);
+                var result = await _userService.AddAsync(user);
+
+                return result ? Redirect(nameof(Login)) : Redirect(nameof(Register));
+            }
+            catch
+            {
+                throw new ArgumentException("account had been used,change it please;");
+            }
+        }
+
 
         public IActionResult AccessDeny()
         {

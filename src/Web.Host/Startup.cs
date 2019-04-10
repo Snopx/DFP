@@ -50,7 +50,7 @@ namespace Web.Host
                 options.AddPolicy("Admin", policy => policy.RequireRole("Admin").Build());//管理员
                 options.AddPolicy("AdminOrUser", policy => policy.RequireRole("Admin", "User").Build());//均可
             });
-            AuthConfigurer.Configure(services, Configuration);
+            services.ConfigureJWT(Configuration);
             #region Swagger
             services.AddSwaggerGen(o =>
             {

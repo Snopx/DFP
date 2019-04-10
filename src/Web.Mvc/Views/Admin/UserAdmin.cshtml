@@ -1,0 +1,141 @@
+﻿@using Domain.QueryParameterFolder
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Article";
+    var input = ViewData["input"] as UserParameter;
+}
+@using Domain.Base
+@using Domain.Enum
+@using Application.AppService.UserApp.dto
+@model PaginatedList<UserDto>
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+
+<link href="~/lib/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" />
+
+<div id="toolbar">
+    <a href="/admin/NewArticle" class="text-decoration-none"><i class="fas fa-plus"></i> New User</a>
+    <form id="formArticle" asp-controller="Admin" asp-action="Article">
+        <input type="hidden" name="PageIndex" value="@Model.PageIndex" />
+        <input type="hidden" name="PageSize" value="@Model.PageSize" />
+        <div class="float-right d-md-inline-block">
+            <div class="input-group mb-4">
+                <input class="form-control" type="text" placeholder="Search..." name="Title" value="@input.Name">
+                <div class="input-group-append">
+                    <a href="javascript:reset()" class="btn border-dark">Search</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<table id="articleTable" data-classes="table table-borderless table-sm table-hover" data-toggle="table" data-side-pagination="server" data-page-size="20" data-height="70%">
+    <thead>
+        <tr>
+            <th data-align="center">Account</th>
+            <th data-align="center">Name</th>
+            <th data-align="center">Gender</th>
+            <th data-align="center">Operation</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Account</td>
+                <td>@item.Name</td>
+                <td>@item.Gender</td>
+                <td>
+                    <a href="/Admin/ModifyArticle/@item.ID" class="btn btn-sm btn-outline-secondary">Modify</a>
+                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-danger removeBtn" data-id="@item.ID" data-title="@item.Account">Remove</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="mt-2 float-md-right">
+    <nav>
+        <ul class="pagination">
+            <li class="page-item"><a class="btn btn-outline-primary @(Model.HasPrevious ? " " : " disabled")" href="javascript:PrevOrNext();">Prev</a></li>
+            <li class="page-item"><a class="btn btn-outline-primary @(Model.HasNext ? " " : " disabled")" href="javascript:PrevOrNext(1);">Next</a></li>
+        </ul>
+    </nav>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-danger" id="myModalLabel">
+                    Delete
+                </h4>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                    Cancle
+                </button>
+                <input id="deleteID" type="hidden" />
+                <a data-dismiss="modal" class="btn btn-outline-danger" onclick="confirmDelete()">
+                    Yes
+                </a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script src="~/lib/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript">
+
+    var PrevOrNext = function (num) {
+        var $page = $("form input[name='PageIndex']");
+        if (num)
+            $page.val(@(Model.PageIndex + 1));
+        else
+            $page.val(@(Model.PageIndex - 1));
+        $("#formArticle").submit();
+    };
+    var typeChange = function () {
+        $("input[name='PageIndex']").val(0);
+        $("#formArticle").submit();
+    };
+    var reset = function () {
+        $("input[name='PageIndex']").val(0);
+        $("#formArticle").submit();
+    };
+    var confirmDelete = function () {
+        var id = $("#deleteID").val();
+        var token = '@(Xsrf.GetAndStoreTokens(Context).RequestToken)';
+        if (id) {
+            $.ajax({
+                url: 'DeleteArticle',
+                data: { id: id, __RequestVerificationToken: token },
+                type: 'post',
+                success: function (data) {
+                    if (data.success === true) {
+                         alert('Successfully Delete');
+                    } else {
+                        alert('Failed To Delete');
+                    }
+                    location.reload();
+                }
+
+            });
+        }
+    };
+    (function () {
+        $(function () {
+            $(".removeBtn").on("click", function () {
+                var id = $(this).attr("data-id");
+                var title = $(this).attr("data-title");
+                $("div.modal-body").html("Are you sure to Delete <span class='text-danger'>" + title + "</span> ?");
+                $("#deleteID").val(id);
+                $('#myModal').modal('show');
+
+            });
+        });
+        $("#ArticleType option").each(function () {
+            if ($(this).attr("data-selected")) {
+                $(this).attr("selected", "selected");
+            }
+        });
+    })();
+</script>
