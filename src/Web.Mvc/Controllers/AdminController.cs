@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.AppService.ArticleApp.Dto;
 using Application.ArticleApp;
 using Application.ArticleApp.Dto;
 using Application.UserApp;
 using AutoMapper;
-using Domain.Base;
-using Domain.Interface;
 using Domain.Model;
 using Domain.QueryParameterFolder;
 using Infrastructure.Util;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Web.Mvc.Controllers
 {
@@ -85,7 +80,7 @@ namespace Web.Mvc.Controllers
             article = _mapper.Map(input, article);
 
             article.UpdateTime = DateTime.Now;
-            article.Author = User.Claims.Where(x => x.Type.Equals("FullName", StringComparison.OrdinalIgnoreCase)).Select(x => x.Value).FirstOrDefault();
+            article.Author = HttpContextHelper.LoginUserName;
             var result = await _articleService.UpdateAsync(article);
             if (result)
                 return RedirectToAction(nameof(Article));

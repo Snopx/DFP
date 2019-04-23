@@ -7,6 +7,7 @@ using Infrastructure.Cache;
 using Infrastructure.Data;
 using Infrastructure.Repository;
 using Infrastructure.UnitOfWorkFolder;
+using Microsoft.AspNetCore.Http;
 
 namespace Infrastructure.ioC
 {
@@ -15,6 +16,8 @@ namespace Infrastructure.ioC
 
         protected override void Load(ContainerBuilder builder)
         {
+            //HttpContextAccessor
+            builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().InstancePerLifetimeScope();
             //cache
             builder.RegisterType<MemoryCache>().As<ICache>().InstancePerLifetimeScope();
             //aop

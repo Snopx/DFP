@@ -70,6 +70,7 @@ namespace Web.Mvc.StartUp
                 });
             }
             app.UseStaticFiles();
+            app.UseStaticHttpContext();
             app.UseAuthentication();
             app.UseMvc(routes =>
             {
