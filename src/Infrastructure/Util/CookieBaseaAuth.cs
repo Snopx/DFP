@@ -7,12 +7,13 @@ using System;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Infrastructure.Util
 {
-    public class CookieBaseaAuth
+    public static class CookieBaseaAuth
     {
-        public static ClaimsPrincipal GetClaimsPrincipal(UserModel user)
+        private static ClaimsPrincipal GetClaimsPrincipal(UserModel user)
         {
             var claims = new List<Claim>
                 {
@@ -26,7 +27,7 @@ namespace Infrastructure.Util
             return new ClaimsPrincipal(claimsIdentity);
         }
 
-        public static Microsoft.AspNetCore.Authentication.AuthenticationProperties AuthenticationProperties
+        private static Microsoft.AspNetCore.Authentication.AuthenticationProperties AuthenticationProperties
         {
             get
             {
@@ -54,6 +55,17 @@ namespace Infrastructure.Util
                     // redirect response value.
                 };
             }
+        }
+
+        public static async Task Login(HttpContext http, UserModel user)
+        {
+           await http.SignInAsync(DefaultAuthorizeAttribute.DefaultAuthenticationScheme,
+                        GetClaimsPrincipal(user), AuthenticationProperties);
+        }
+
+        public static async Task LogOut(HttpContext http)
+        {
+            await http.SignOutAsync(DefaultAuthorizeAttribute.DefaultAuthenticationScheme);
         }
     }
 }

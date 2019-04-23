@@ -53,7 +53,7 @@ namespace Infrastructure.Util
                 {
                     option.LoginPath = "/User/Login";
                     option.AccessDeniedPath = "/User/AccessDeny";
-                    option.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+                    option.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 });
         }
 

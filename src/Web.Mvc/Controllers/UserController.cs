@@ -37,8 +37,7 @@ namespace Web.Mvc.Controllers
             if (user == null || user.Password != SecurityOfCrypt.Encode(Password))
                 return RedirectToAction(nameof(Login), new { id = false, ReturnUrl });
             user.Roles = new List<Role> { new Role { ID = 1, RoleName = "Administrator" } };
-            await HttpContext.SignInAsync(DefaultAuthorizeAttribute.DefaultAuthenticationScheme,
-                        new ClaimsPrincipal(CookieBaseaAuth.GetClaimsPrincipal(user)), CookieBaseaAuth.AuthenticationProperties);
+            await CookieBaseaAuth.Login(HttpContext, user);
             if (string.IsNullOrWhiteSpace(ReturnUrl))
                 return RedirectToAction("dashboard", "admin");
             else
@@ -47,7 +46,7 @@ namespace Web.Mvc.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(DefaultAuthorizeAttribute.DefaultAuthenticationScheme);
+            await CookieBaseaAuth.LogOut(HttpContext);
             return Redirect(nameof(Login));
         }
 
