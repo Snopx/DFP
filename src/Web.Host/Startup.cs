@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using Application.AutoMapper;
 using AutoMapper;
 using Infrastructure.Data;
@@ -61,7 +62,7 @@ namespace Web.Host
                     Version = "v0.1.0",
                     Title = title,
                     Description = "API文档",
-                    Contact = new OpenApiContact { Name = "DarrenFang", Email = "darrenfang94@gmail.com", Url = "https://github.com/Snopx" }
+                    Contact = new OpenApiContact { Name = "DarrenFang", Email = "darrenfang94@gmail.com", Url = new Uri("https://github.com/Snopx") }
                 });
                 string basePath = Microsoft.DotNet.PlatformAbstractions.ApplicationEnvironment.ApplicationBasePath;
                 var xmlPath = Path.Combine(basePath, "Web.Host.xml");
@@ -70,7 +71,7 @@ namespace Web.Host
                 #region Token绑定到ConfigureServices
                 var IssuerName = Configuration["Authentication:JwtBearer:Issuer"];
                 var security = new Dictionary<string, IEnumerable<string>> { { IssuerName, new string[] { } }, };
-                o.AddSecurityRequirement(new OpenApiSecurityScheme { });
+                //o.AddSecurityRequirement(new OpenApiSecurityScheme { });
 
                 o.AddSecurityDefinition(IssuerName, new OpenApiSecurityScheme
                 {
@@ -108,8 +109,9 @@ namespace Web.Host
 
             });
             #endregion
-            AutomapperHelper.RegisterMappings();
-            services.AddAutoMapper();
+            //autoMapper DI
+            var profileAssembly = Assembly.GetAssembly(typeof(IProfile));
+            services.AddAutoMapper(profileAssembly);
             services.AddDbContext<DFDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default"), builder => builder.MigrationsAssembly("Infrastructure")));
             return IocConfiguration.UseIoc(services);
         }

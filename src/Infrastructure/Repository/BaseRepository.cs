@@ -24,9 +24,9 @@ namespace Infrastructure.Repository
             return context.Set<TEntity>().Find(ID);
         }
 
-        public Task<TEntity> GetAsync(PrimaryKey ID)
+        public async ValueTask<TEntity> GetAsync(PrimaryKey ID)
         {
-            return context.Set<TEntity>().FindAsync(ID);
+            return await context.Set<TEntity>().FindAsync(ID);
         }
 
         public IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> predicate)

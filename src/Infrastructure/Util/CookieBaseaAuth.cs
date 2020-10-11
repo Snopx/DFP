@@ -2,9 +2,6 @@
 using Microsoft.AspNetCore.Authentication;
 using System.Collections.Generic;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using System;
-using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System.Threading.Tasks;

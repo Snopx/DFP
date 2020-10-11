@@ -10,7 +10,7 @@ namespace Domain.Interface
         IQueryable<TEntity> Table { get; }
         TEntity Get(TPrimaryKey ID);
 
-        Task<TEntity> GetAsync(TPrimaryKey ID);
+        ValueTask<TEntity> GetAsync(TPrimaryKey ID);
 
         IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> predicate);
     }

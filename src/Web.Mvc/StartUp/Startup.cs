@@ -11,7 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
+using System.Reflection;
 
 namespace Web.Mvc.StartUp
 {
@@ -36,19 +38,20 @@ namespace Web.Mvc.StartUp
             //    options.MinimumSameSitePolicy = SameSiteMode.None;
             //});
             #endregion
-            AutomapperHelper.RegisterMappings();
 
-            //自动验证防伪标签 (全局)  亦可用 ValidateAntiForgeryToken 在控制器或控制器下的方法使用。 如果不需要使用可以使用 IgnoreAntiforgeryToken 特性标注
-            services.AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute())).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddControllersWithViews();
+
             services.ConfigureCookieBase();
-            services.AddAutoMapper();
+            //autoMapper DI
+            var profileAssembly = Assembly.GetAssembly(typeof(IProfile));
+            services.AddAutoMapper(profileAssembly);
 
             services.AddDbContext<DFDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
             return IocConfiguration.UseIoc(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -56,12 +59,14 @@ namespace Web.Mvc.StartUp
             }
             else
             {
-                app.UseExceptionHandler(builder => {
-                    builder.Run(async context => {
+                app.UseExceptionHandler(builder =>
+                {
+                    builder.Run(async context =>
+                    {
                         context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                         context.Response.ContentType = "application/json";
                         var ex = context.Features.Get<IExceptionHandlerFeature>();
-                        if(ex != null)
+                        if (ex != null)
                         {
                             //TODO 日志
                         }
@@ -71,14 +76,9 @@ namespace Web.Mvc.StartUp
             }
             app.UseStaticFiles();
             app.UseStaticHttpContext();
+            app.UseRouting();
             app.UseAuthentication();
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-
-            });
+            app.UseEndpoints(Endpoint => Endpoint.MapControllers());
         }
     }
 }
