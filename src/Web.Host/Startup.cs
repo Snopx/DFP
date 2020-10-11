@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Web.Host
@@ -55,28 +56,28 @@ namespace Web.Host
             services.AddSwaggerGen(o =>
             {
                 var title = "DF's Blog API";
-                o.SwaggerDoc("v1", new Info
+                o.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v0.1.0",
                     Title = title,
                     Description = "API文档",
-                    Contact = new Contact { Name = "DarrenFang", Email = "darrenfang94@gmail.com", Url = "https://github.com/Snopx" }
+                    Contact = new OpenApiContact { Name = "DarrenFang", Email = "darrenfang94@gmail.com", Url = "https://github.com/Snopx" }
                 });
                 string basePath = Microsoft.DotNet.PlatformAbstractions.ApplicationEnvironment.ApplicationBasePath;
                 var xmlPath = Path.Combine(basePath, "Web.Host.xml");
-                o.IncludeXmlComments(xmlPath,true);
+                o.IncludeXmlComments(xmlPath, true);
 
                 #region Token绑定到ConfigureServices
                 var IssuerName = Configuration["Authentication:JwtBearer:Issuer"];
                 var security = new Dictionary<string, IEnumerable<string>> { { IssuerName, new string[] { } }, };
-                o.AddSecurityRequirement(security);
+                o.AddSecurityRequirement(new OpenApiSecurityScheme { });
 
-                o.AddSecurityDefinition(IssuerName, new ApiKeyScheme
+                o.AddSecurityDefinition(IssuerName, new OpenApiSecurityScheme
                 {
                     Description = "Input 'Bearer {token}'",
                     Name = "Authorization",//jwt默认的参数名称
-                    In = "header",//jwt默认存放Authorization信息的位置(请求头中)
-                    Type = "apiKey"
+                    In = ParameterLocation.Header,//jwt默认存放Authorization信息的位置(请求头中)
+                    Type = SecuritySchemeType.ApiKey
                 });
                 #endregion
             });
@@ -136,6 +137,7 @@ namespace Web.Host
             app.UseStaticFiles();
             app.UseCors("LimitRequests");
             app.UseAuthentication();
+
             app.UseMvc();
         }
     }

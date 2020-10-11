@@ -29,6 +29,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Web.Host.Controllers.ValuesController.Post(System.String)">
+            <summary>
+            穿是是是
+            </summary>
+            <param name="aa">AAA</param>
+            <returns></returns>
+        </member>
         <member name="T:Web.Host.Program">
             <summary>
             Program to setup

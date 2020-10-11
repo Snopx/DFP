@@ -31,6 +31,17 @@ namespace Web.Host.Controllers
             return "value";
         }
 
+        /// <summary>
+        /// 穿是是是
+        /// </summary>
+        /// <param name="aa">AAA</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<string> Post(string aa)
+        {
+            return aa;
+        }
+
         [AllowAnonymous]
         [HttpGet]
         [Route("Login")]
