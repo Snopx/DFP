@@ -82,8 +82,11 @@ namespace Web.Mvc.StartUp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
+                    name: "home",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    name: "admin",
+                    pattern: "{controller=Admin}/{action=Dashboard}/{id?}");
             });
         }
     }
