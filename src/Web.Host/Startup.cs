@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -44,7 +45,7 @@ namespace Web.Host
         /// <param name="services"></param>
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddControllers();
             //TODO need to modify Role角色需要用枚举定义
             services.AddAuthorization(options =>
             {
@@ -87,25 +88,23 @@ namespace Web.Host
             services.AddCors(c =>
             {
                 //↓↓↓↓↓↓↓注意正式环境不要使用这种全开放的处理↓↓↓↓↓↓↓↓↓↓
-                c.AddPolicy("AllRequests", policy =>
-                {
-                    policy
-                    .AllowAnyOrigin()//允许任何源
-                    .AllowAnyMethod()//允许任何方式
-                    .AllowAnyHeader()//允许任何头
-                    .AllowCredentials();//允许cookie
-                });
+                c.AddPolicy("AllRequests",
+                    builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    );
                 //↑↑↑↑↑↑↑注意正式环境不要使用这种全开放的处理↑↑↑↑↑↑↑↑↑↑
 
 
                 //一般采用这种方法
-                c.AddPolicy("LimitRequests", policy =>
-                {
-                    policy
-                    .WithOrigins("http://localhost:8020", "http://blog.core.xxx.com")//支持多个域名端口
-                    .AllowAnyHeader()//Ensures that the policy allows any header.
-                    .AllowAnyMethod();//标头添加到策略
-                });
+                //c.AddPolicy("LimitRequests", policy =>
+                //{
+                //    policy
+                //    .WithOrigins("http://localhost:8020", "http://blog.core.xxx.com")//支持多个域名端口
+                //    .AllowAnyHeader()//Ensures that the policy allows any header.
+                //    .AllowAnyMethod();//标头添加到策略
+                //});
 
             });
             #endregion
@@ -122,7 +121,7 @@ namespace Web.Host
         /// </summary>
         /// <param name="app"></param>
         /// <param name="env"></param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -137,10 +136,15 @@ namespace Web.Host
             });
             #endregion
             app.UseStaticFiles();
-            app.UseCors("LimitRequests");
+            app.UseCors("AllRequests");
+            app.UseRouting();
+            app.UseAuthorization();
             app.UseAuthentication();
 
-            app.UseMvc();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

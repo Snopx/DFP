@@ -23,6 +23,11 @@
             <param name="input">ArticleParameter</param>
             <returns></returns>
         </member>
+        <member name="T:Web.Host.Controllers.ValuesController">
+            <summary>
+            测试项目
+            </summary>
+        </member>
         <member name="M:Web.Host.Controllers.ValuesController.Get">
             <summary>
             teadsf s 
@@ -31,7 +36,7 @@
         </member>
         <member name="M:Web.Host.Controllers.ValuesController.Post(System.String)">
             <summary>
-            穿是是是
+            测试
             </summary>
             <param name="aa">AAA</param>
             <returns></returns>
@@ -76,7 +81,7 @@
             </summary>
             <param name="services"></param>
         </member>
-        <member name="M:Web.Host.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+        <member name="M:Web.Host.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
             <summary>
             configure the http pipeline
             </summary>

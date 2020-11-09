@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Host.Controllers
 {
+    /// <summary>
+    /// 测试项目
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Policy = "Admin")]
@@ -32,7 +35,7 @@ namespace Web.Host.Controllers
         }
 
         /// <summary>
-        /// 穿是是是
+        /// 测试
         /// </summary>
         /// <param name="aa">AAA</param>
         /// <returns></returns>
