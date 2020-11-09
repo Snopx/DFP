@@ -22,5 +22,6 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
-/Web.Mvc/Properties/PublishProfiles
-/Web.Mvc/appsettings.json
+/src/Web.Mvc/Properties/PublishProfiles
+/src/Web.Mvc/appsettings.json
+/src/Web.Mvc/appsettings.Development.json

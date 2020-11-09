@@ -33,7 +33,7 @@ namespace Web.Mvc.Controllers
 
         public async Task<IActionResult> SignIn(string Account, string Password, string ReturnUrl)
         {
-            var user = _userService.Get(x => x.Account.Equals(Account, StringComparison.OrdinalIgnoreCase));
+            var user = _userService.Get(x => x.Account ==Account);
             if (user == null || user.Password != SecurityOfCrypt.Encode(Password))
                 return RedirectToAction(nameof(Login), new { id = false, ReturnUrl });
             user.Roles = new List<Role> { new Role { ID = 1, RoleName = "Administrator" } };
