@@ -17,8 +17,8 @@ namespace Web.Mvc.Controllers
         public async Task<IActionResult> Index()
         {
             ArticleOutputWithTypeDto model = new ArticleOutputWithTypeDto();
-            model.Life = await _articleService.GetTop5(ArticleType.Life);
-            model.Yatter = await _articleService.GetTop5(ArticleType.Yatter);
+            //model.Life = await _articleService.GetTop5(ArticleType.Life);
+            //model.Yatter = await _articleService.GetTop5(ArticleType.Yatter);
             return View(model);
         }
 

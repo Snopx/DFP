@@ -23,7 +23,7 @@
                 <p class="card-text mb-auto">Carpe diem. Seize the day.</p>
             </div>
             <div class="col-auto d-none d-lg-block">
-                <img src="~/images/falling.jpg"/>
+                <img src="~/images/falling.jpg" />
             </div>
         </div>
     </div>
@@ -47,14 +47,17 @@
             <h3 class="pb-4 mb-4 font-italic border-bottom">
                 Shooting Star
             </h3>
-            @foreach (var item in Model.Life)
+            @if (Model.Life != null)
             {
-                <div class="blog-post">
-                    <h2 class="blog-post-title">@item.Title</h2>
-                    <p class="blog-post-meta">@item.CreateTime.ToString("MMMM dd , yyyy", new CultureInfo("en-US")) by @item.Author</p>
-                    <p class="font-weight-lighter">@item.Summary</p>
-                    <p>@item.Content</p>
-                </div>
+                @foreach (var item in Model.Life)
+                {
+                    <div class="blog-post">
+                        <h2 class="blog-post-title">@item.Title</h2>
+                        <p class="blog-post-meta">@item.CreateTime.ToString("MMMM dd , yyyy", new CultureInfo("en-US")) by @item.Author</p>
+                        <p class="font-weight-lighter">@item.Summary</p>
+                        <p>@item.Content</p>
+                    </div>
+                }
             }
         </div><!-- /.blog-main -->
 
@@ -66,12 +69,15 @@
 
             <div class="p-4">
                 <h4 class="font-italic">Yatter</h4>
-                <ol class="list-unstyled mb-0">
-                    @foreach (var item in Model.Yatter)
-                    {
-                        <li><p>@item.Summary</p></li>
-                    }
-                </ol>
+                @if (Model.Yatter != null)
+                {
+                    <ol class="list-unstyled mb-0">
+                        @foreach (var item in Model.Yatter)
+                        {
+                            <li><p>@item.Summary</p></li>
+                        }
+                    </ol>
+                }
             </div>
         </aside>
 

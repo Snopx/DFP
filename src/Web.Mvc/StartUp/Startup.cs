@@ -78,7 +78,12 @@ namespace Web.Mvc.StartUp
             app.UseStaticHttpContext();
             app.UseRouting();
             app.UseAuthentication();
-            app.UseEndpoints(Endpoint => Endpoint.MapControllers());
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }
