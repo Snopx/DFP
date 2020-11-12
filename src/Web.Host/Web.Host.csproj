@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\25870\Desktop\git\DFP\src\Web.Host\Web.Host.xml</DocumentationFile>
+    <DocumentationFile>C:\CodingSpace\DFP\src\Web.Host\Web.Host.xml</DocumentationFile>
+    <OutputPath></OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
