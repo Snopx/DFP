@@ -22,7 +22,6 @@ namespace Web.Mvc.StartUp
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            JwtTokenHelper.SetConfiguration(Configuration);
         }
 
         public IConfiguration Configuration { get; }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -13,11 +14,11 @@ namespace Infrastructure.Util
     public static class JwtTokenHelper
     {
         private static IConfiguration _configuration;
-        private static string securityKey;
-        public static void SetConfiguration(IConfiguration configuration)
+        private static string securityKey => _configuration["Authentication:JwtBearer:SecurityKey"].ToString();
+        public static void SetConfiguration()
         {
-            _configuration = configuration;
-            securityKey = configuration["Authentication:JwtBearer:SecurityKey"].ToString();
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", true, true);
+            _configuration = builder.Build();
         }
 
         /// <summary>
@@ -25,7 +26,7 @@ namespace Infrastructure.Util
         /// </summary>
         /// <param name="header"></param>
         /// <returns></returns>
-        public static string CreateToken(string name, string role, int expiresMinute=20, Dictionary<string, object> header = null)
+        public static string CreateToken(string name, string role, int expiresMinute = 20, Dictionary<string, object> header = null)
         {
             if (header == null)
             {
@@ -56,7 +57,7 @@ namespace Infrastructure.Util
 
         /// <param name="expiresMinute">有效分钟</param>
         /// <returns></returns>
-        public static string CreateTokenByHandler(string name, string role, int expiresMinute=20)
+        public static string CreateTokenByHandler(string name, string role, int expiresMinute = 20)
         {
             var now = DateTime.UtcNow;
             var claims = new List<Claim>

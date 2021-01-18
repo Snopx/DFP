@@ -31,7 +31,6 @@ namespace Web.Host
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            JwtTokenHelper.SetConfiguration(configuration);
         }
         /// <summary>
         /// Get the Configuration (DI)
